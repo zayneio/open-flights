@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 
 class Airline extends Component {
   state = {
-    airline: {}
+    airline: null,
+    review: null,
+    reviews: []
   }
 
   render(){
