@@ -15,7 +15,10 @@ const Column = styled.div`
 
 class Airline extends Component {
   state = {
-    airline: null,
+    airline: {
+      name: '', 
+      image_url: ''
+    },
     review: null,
     reviews: []
   }
@@ -27,7 +30,7 @@ class Airline extends Component {
     axios.get(url)
     .then( (resp) => {
       this.setState({
-        airline: resp.data.attributes,
+        airline: resp.data.data.attributes,
         reviews: resp.data.included
       })
     })
@@ -37,8 +40,7 @@ class Airline extends Component {
   }
 
   render(){
-    const name = this.state.airline ? this.state.airline.name : null
-    const image_url = this.state.airline ? this.state.airline.image_url : null
+    const { name, image_url } = this.state.airline
   
     return(
       <div>
