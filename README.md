@@ -36,9 +36,18 @@ edit_api_v1_airline GET    /api/v1/airlines/:slug/edit(.:format) api/v1/airlines
                     GET    /*path(.:format)                      pages#index
 ```
 
-## How to build it
+## How to rebuild this app from scratch
 
 For an up to date, full step-by-step guide on how to rebuild this app from scratch, check out [this article](https://zayne.io/articles/how-to-build-a-crud-app-with-ruby-on-rails-and-react)
+
+### Getting Started: Creating a New Rails App With React & Webpacker
+First things first, let's create a brand new rails app. We can do this from the command line by doing rails new app-name where app-name is the name of our app, however we are going to add a few additional things. We need to add `--webpack=react` to configure our new app with webpacker to use react, and additionally I'm going to add `--database=postgresql` to configure my app to use postgres as the default database. so the final output to create our new app will look like this:
+
+```shell
+rails new open-flights --webpack=react --database=postgresql
+```
+
+
 
 
 ## License
