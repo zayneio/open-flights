@@ -16,7 +16,7 @@ Some of the features of this app include:
 ## Running it locally
 - run `bundle exec rails db:prepare`
 - run `bundle exec rails s`
-- run `./bin/webpack-dev-server` (optional)
+- (optional) in another tab run `./bin/webpack-dev-server`
 - navigate to `http://localhost:3000`
 
 ## Routes
@@ -36,7 +36,9 @@ edit_api_v1_airline GET    /api/v1/airlines/:slug/edit(.:format) api/v1/airlines
                     GET    /*path(.:format)                      pages#index
 ```
 
-## How to rebuild this app from scratch
+---
+
+# How to rebuild this app from scratch
 
 For an up to date, full step-by-step guide on how to rebuild this app from scratch, check out [this article](https://zayne.io/articles/how-to-build-a-crud-app-with-ruby-on-rails-and-react)
 
