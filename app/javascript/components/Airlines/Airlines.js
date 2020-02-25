@@ -13,15 +13,25 @@ class Airlines extends Component {
       this.setState({ airlines: resp.data.data })
     })
     .catch( data => {
-      debugger
+      console.log('error', data)
     })
   }
 
   render() {
-    const airlines = this.state.airlines.map( (airline, index) => {
-       return (<li key={index} >airline.attributes.name</li>)
-    })
-    
+    let airlines
+    if (this.state.airlines.length > 0) {
+      airlines = this.state.airlines.map( (airline, index) => { 
+        return (
+          <Airline 
+            key={index} 
+            name={airline.attributes.name} 
+            image_url={airline.attributes.image_url} 
+            slug={airline.attributes.slug} 
+          />
+        )
+      })
+    }
+
     return (
       <div className="home">
         <div className="header">
@@ -29,9 +39,7 @@ class Airlines extends Component {
           <p className="subheader">Honest, unbiased airline reviews. Share your experience.</p>
         </div>
         <div className="grid">
-          <ul>
-            {airlines}
-          </ul>
+         {airlines}
         </div>
       </div>
     )
