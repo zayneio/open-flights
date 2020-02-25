@@ -10,7 +10,7 @@ module Api
       
       # GET /api/v1/airlines/:slug
       def show
-        render json: AirlineSerializer.new(airlines, , options).serialized_json
+        render json: AirlineSerializer.new(airlines, options).serialized_json
       end
 
       # POST /api/v1/airlines
