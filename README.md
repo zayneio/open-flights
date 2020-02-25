@@ -62,6 +62,17 @@ For our airlines, we want to have a `name` for each airline, a unique url-safe `
 
 For our reviews, we want to have a `title`, `description`, `score`, and the `airline_id` for the airline the review will belong to. The scoring system I'm going to use for our reviews will be a star rating system that ranges from 1 to 5 stars; 1 being the worst score and 5 being the best score.
 
+
+So from our command line we can enter the following generators to create our airline and review models in our app:
+
+```shell
+rails g model Airline name slug image_url
+```
+
+```shell
+rails g model Review title description score:integer airline:belongs_to
+```
+
 ## License
 ```
 Copyright (c) 2020 zayneio
