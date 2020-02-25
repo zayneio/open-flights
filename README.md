@@ -49,8 +49,18 @@ First things first, let's create a brand new rails app. We can do this from the 
 rails new open-flights --webpack=react --database=postgresql
 ```
 
+Once this finishes running, make sure to cd into the directory of your new rails app (`cd open-flights`), then we can go ahead and create the database for our app by entering the following into our command line:
 
+```
+bundle exec rails db:create
+```
 
+## Models
+Our data model for this app will be pretty simple. Our app will have `airlines`, and each airline in our app will have many `reviews`.
+
+For our airlines, we want to have a name for each airline, a unique url-safe slug, and an image_url for airline logos (Note: I'm not going to handle file uploading in this post, instead we will just link to an image hosted on s3).
+
+For our reviews, we want to have a title, description, score, and the airline_id for the airline the review will belong to. The scoring system I'm going to use for our reviews will be a star rating system that ranges from 1 to 5 stars; 1 being the worst score and 5 being the best score.
 
 ## License
 ```
