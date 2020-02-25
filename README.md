@@ -35,3 +35,8 @@ edit_api_v1_airline GET    /api/v1/airlines/:slug/edit(.:format) api/v1/airlines
       api_v1_review DELETE /api/v1/reviews/:id(.:format)         api/v1/reviews#destroy
                     GET    /*path(.:format)                      pages#index
 ```
+
+## How to build it
+
+For an up to date, full step-by-step guide on how to rebuild this app from scratch, check out [this article](https://zayne.io/articles/how-to-build-a-crud-app-with-ruby-on-rails-and-react)
+
