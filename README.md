@@ -40,7 +40,7 @@ edit_api_v1_airline GET    /api/v1/airlines/:slug/edit(.:format) api/v1/airlines
 
 # How to rebuild this app from scratch
 
-For an up to date, full step-by-step guide on how to rebuild this app from scratch, check out [this article](https://zayne.io/articles/how-to-build-a-crud-app-with-ruby-on-rails-and-react)
+For an up to date, full step-by-step guide on how to rebuild this app from scratch, check out [this article I've put together.](https://zayne.io/articles/how-to-build-a-crud-app-with-ruby-on-rails-and-react)
 
 ### Getting Started: Creating a New Rails App With React & Webpacker
 First things first, let's create a brand new rails app. We can do this from the command line by doing `rails new app-name` where app-name is the name of our app, however we are going to add a few additional things. We need to add `--webpack=react` to configure our new app with webpacker to use react, and additionally I'm going to add `--database=postgresql` to configure my app to use postgres as the default database. so the final output to create our new app will look like this:
@@ -58,7 +58,7 @@ bundle exec rails db:create
 ## Models
 Our data model for this app will be pretty simple. Our app will have `airlines`, and each airline in our app will have many `reviews`.
 
-For our airlines, we want to have a `name` for each airline, a unique url-safe `slug`, and an `image_url` for airline logos (Note: I'm not going to handle file uploading in this post, instead we will just link to an image hosted on s3).
+For our airlines, we want to have a `name` for each airline, a unique url-safe `slug`, and an `image_url` for airline logos (Note: I'm not going to handle file uploading in this article, instead we will just link to an image hosted on s3).
 
 For our reviews, we want to have a `title`, `description`, `score`, and the `airline_id` for the airline the review will belong to. The scoring system I'm going to use for our reviews will be a star rating system that ranges from 1 to 5 stars; 1 being the worst score and 5 being the best score.
 
@@ -231,6 +231,57 @@ class Airline < ApplicationRecord
   end
 end  
 ```
+
+
+## Seeding Our Database
+Now that we have got our models created, let's go ahead and seed our database with some data! We can add this to the `seeds.rb` file located inside of our `db` folder:
+
+```ruby
+Airline.create([
+  { 
+    name: "United Airlines",
+    image_url: "https://open-flights.s3.amazonaws.com/United-Airlines.png"
+  }, 
+  { 
+    name: "Southwest",
+    image_url: "https://open-flights.s3.amazonaws.com/Southwest-Airlines.png"
+  },
+  { 
+    name: "Delta",
+    image_url: "https://open-flights.s3.amazonaws.com/Delta.png" 
+  }, 
+  { 
+    name: "Alaska Airlines",
+    image_url: "https://open-flights.s3.amazonaws.com/Alaska-Airlines.png" 
+  }, 
+  { 
+    name: "JetBlue",
+    image_url: "https://open-flights.s3.amazonaws.com/JetBlue.png" 
+  }, 
+  { 
+    name: "American Airlines",
+    image_url: "https://open-flights.s3.amazonaws.com/American-Airlines.png" 
+  }
+])
+```
+
+And then we can seed our database by running the following command in our terminal:
+
+```shell
+rails db:seed
+```
+
+Now if we jump into our rails console with `rails c` we should be able to see our new data in the database:
+
+```ruby
+Airline.first
+# => #<Airline id: 1, name: "United Airlines", slug: "united-airlines", image_url: "https://open-flights.s3.amazonaws.com/United-Airlines.png", created_at: "2019-12-26 23:02:58", updated_at: "2019-12-26 23:02:58">
+```
+
+Notice that even though we only included the name and image_url in our seed data, we additionally have a slug value (in this case "united-airlines") because we added that slugify method to our airline model. We will use this slug shortly as the paramater to find records by in our controllers, instead of using the id param.
+
+
+
 
 ## License
 ```
