@@ -73,6 +73,41 @@ rails g model Airline name slug image_url
 rails g model Review title description score:integer airline:belongs_to
 ```
 
+This will create two new files in our `db/migrations` folder; one for airlines:
+
+```ruby
+class CreateAirlines < ActiveRecord::Migration[5.2]
+  def change
+    create_table :airlines do |t|
+      t.string :name
+      t.string :slug
+      t.string :image_url
+
+      t.timestamps
+    end
+  end
+end
+```
+
+and one for reviews:
+
+```ruby
+class CreateReviews < ActiveRecord::Migration[5.2]
+  def change
+    create_table :reviews do |t|
+      t.string :title
+      t.string :description
+      t.integer :score
+      t.belongs_to :airline, foreign_key: true
+
+      t.timestamps
+    end
+  end
+end
+```
+
+
+
 ## License
 ```
 Copyright (c) 2020 zayneio
