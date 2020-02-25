@@ -58,7 +58,8 @@ class Airlines extends Component {
             key={index} 
             name={airline.attributes.name} 
             image_url={airline.attributes.image_url} 
-            slug={airline.attributes.slug} 
+            slug={airline.attributes.slug}
+            avg_score={airline.attributes.avg_score}
           />
         )
       })

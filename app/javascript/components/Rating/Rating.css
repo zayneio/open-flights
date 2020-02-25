@@ -1,0 +1,18 @@
+.rating-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.rating {
+  color: #fcc201;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.rating-wrapper::before, .rating::before {
+  font-family: "FontAwesome";
+  content: "\f005 \0020 \f005 \0020 \f005 \0020 \f005 \0020 \f005";
+}

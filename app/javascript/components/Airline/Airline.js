@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 import Review from './Review'
+import Rating from '../Rating/Rating'
 
 const Column = styled.div`
   background: #fff; 
@@ -46,7 +47,8 @@ class Airline extends Component {
   render(){
     const name = this.state.airline ? this.state.airline.data.attributes.name : ''
     const image_url = this.state.airline ? this.state.airline.data.attributes.image_url : ''
-    
+    const average = this.state.airline ? this.state.airline.data.attributes.avg_score : 0
+
     let reviews
     if (this.state.reviews.length > 0) {
       reviews = this.state.reviews.map( (review, index) => {
@@ -55,7 +57,7 @@ class Airline extends Component {
             key={index} 
             title={review.attributes.title} 
             description={review.attributes.description} 
-            score={review.attributes.score} 
+            score={review.attributes.score}
           />
         )
       })
@@ -67,6 +69,7 @@ class Airline extends Component {
           <Header>
             <img src={image_url} alt={name} width="50"/>
             <h1>{name}</h1>
+            <Rating score={average}/>
           </Header>
           <div className="reviews">
             {reviews}
