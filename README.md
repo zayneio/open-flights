@@ -43,7 +43,7 @@ edit_api_v1_airline GET    /api/v1/airlines/:slug/edit(.:format) api/v1/airlines
 For an up to date, full step-by-step guide on how to rebuild this app from scratch, check out [this article](https://zayne.io/articles/how-to-build-a-crud-app-with-ruby-on-rails-and-react)
 
 ### Getting Started: Creating a New Rails App With React & Webpacker
-First things first, let's create a brand new rails app. We can do this from the command line by doing rails new app-name where app-name is the name of our app, however we are going to add a few additional things. We need to add `--webpack=react` to configure our new app with webpacker to use react, and additionally I'm going to add `--database=postgresql` to configure my app to use postgres as the default database. so the final output to create our new app will look like this:
+First things first, let's create a brand new rails app. We can do this from the command line by doing `rails new app-name` where app-name is the name of our app, however we are going to add a few additional things. We need to add `--webpack=react` to configure our new app with webpacker to use react, and additionally I'm going to add `--database=postgresql` to configure my app to use postgres as the default database. so the final output to create our new app will look like this:
 
 ```shell
 rails new open-flights --webpack=react --database=postgresql
@@ -58,9 +58,9 @@ bundle exec rails db:create
 ## Models
 Our data model for this app will be pretty simple. Our app will have `airlines`, and each airline in our app will have many `reviews`.
 
-For our airlines, we want to have a name for each airline, a unique url-safe slug, and an image_url for airline logos (Note: I'm not going to handle file uploading in this post, instead we will just link to an image hosted on s3).
+For our airlines, we want to have a `name` for each airline, a unique url-safe `slug`, and an `image_url` for airline logos (Note: I'm not going to handle file uploading in this post, instead we will just link to an image hosted on s3).
 
-For our reviews, we want to have a title, description, score, and the airline_id for the airline the review will belong to. The scoring system I'm going to use for our reviews will be a star rating system that ranges from 1 to 5 stars; 1 being the worst score and 5 being the best score.
+For our reviews, we want to have a `title`, `description`, `score`, and the `airline_id` for the airline the review will belong to. The scoring system I'm going to use for our reviews will be a star rating system that ranges from 1 to 5 stars; 1 being the worst score and 5 being the best score.
 
 ## License
 ```
