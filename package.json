@@ -1,5 +1,5 @@
 {
-  "name": "rails-react-crud-app",
+  "name": "open-flights",
   "private": true,
   "dependencies": {
     "@babel/preset-react": "^7.8.3",
