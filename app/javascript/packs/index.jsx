@@ -6,7 +6,7 @@ import App from '../components/App'
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <Router>
-      <Route path="/" component="App"/>
+      <Route path="/" component={App}/>
     </Router>,
     document.body.appendChild(document.createElement('div')),
   )
