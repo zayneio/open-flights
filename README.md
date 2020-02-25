@@ -1,6 +1,8 @@
 # OpenFlights 
 ## A flight reviews app built with Ruby on Rails and React.js
 
+[!OpenFlights](https://zayne.io/assets/open-flights-836f680c85e73360f0dd2eb27057a132b5ca36f84a2babe72730e40cce6b70a3.png)
+
 This app is meant to be a simple example of a CRUD app built with Ruby on Rails and React.js using Webpacker.
 
 Some of the features of this app include:
