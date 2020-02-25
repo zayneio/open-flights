@@ -1,9 +1,9 @@
-# README
+# OpenFlights 
+## A flight reviews app built with Ruby on Rails and React.js
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This app is meant to be a simple example of a CRUD app built with Ruby on Rails and React.js using Webpacker.
 
-Things you may want to cover:
+Some of the features of this app include:
 
 * Ruby version
 
@@ -22,3 +22,10 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+
+## Running it locally
+- run `rails db:prepare`
+- run `rails s`
+- run `./bin/webpack-dev-server` (optional)
+- navigate to `http://localhost:3000`
