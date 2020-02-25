@@ -106,7 +106,55 @@ class CreateReviews < ActiveRecord::Migration[5.2]
 end
 ```
 
+Additionally, we should now have airline and review model files created for us inside of our `app/models` directory. Because we used `airline:belongs_to` when we generated our review model, our `Review` model should already have the `belongs_to` relationship established, so our this model so far should look like this:
 
+```ruby
+class Review < ApplicationRecord
+  belongs_to :airline
+end
+```
+
+We need to additionally add `has_many :reviews` to our airline model. Once we do, our airline model should look like this:
+
+```ruby
+class Airline < ApplicationRecord
+  has_many :reviews
+end
+```
+
+At this point, we can go ahead and migrate our database:
+
+```shell
+rails db:migrate
+```
+
+Once you run that, you should see a new `schema.rb` file created within the `db` folder in our app. Your schema file should now look something like this:
+
+```ruby
+ActiveRecord::Schema.define(version: 2019_12_26_200455) do
+  enable_extension "plpgsql"
+
+  create_table "airlines", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.string "image_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.integer "score"
+    t.bigint "airline_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["airline_id"], name: "index_reviews_on_airline_id"
+  end
+
+  add_foreign_key "reviews", "airlines"
+end
+```
 
 ## License
 ```
