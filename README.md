@@ -156,6 +156,82 @@ ActiveRecord::Schema.define(version: 2019_12_26_200455) do
 end
 ```
 
+So now for our airline model, we need to do a couple things. First off, I want to add a `before_create` callback method that creates a unique slug based off of the airline's name when we create a new airline. To do this, we can add a new `slugify` method with a before create callback to our airline model like this:
+
+```ruby
+class Airline < ApplicationRecord
+  has_many :reviews
+
+  before_create :slugify
+
+  def slugify
+    self.slug = name.downcase.gsub(' ', '-')
+  end
+end
+```
+
+This slugify method will take the name of an airline, convert any uppercase characters to lowercase, replace any spaces with hyphens, and set this value as our slug before saving the record.
+
+Actually, I think we can simplify this method further by just calling parameterize on our name attribute instead of using downcase and gsub:
+
+```ruby
+class Airline < ApplicationRecord
+  has_many :reviews
+
+  before_create :slugify
+
+  def slugify
+    self.slug = name.parameterize
+  end
+end
+```
+
+This parameterize method should handle both downcasing characters and replacing spaces with hyphens for us. Of course, we can quickly test this out from our rails console to confirm:
+
+```ruby
+'Fake AIRline Name     1'.parameterize
+# => "fake-airline-name-1"
+```
+
+So now if/when we create a new airline, for example "United Airlines", this will convert the name to `united-airlines` and save it as the unique slug for that airline.
+
+Additionally, we need to create a method that will take all of the reviews that belong to an airline and get the average overall rating. We can add an avg_score method to our model like this:
+
+```ruby
+class Airline < ApplicationRecord
+  ...
+
+  def avg_score
+    return 0 unless reviews.size.positive?
+
+    (reviews.sum(:score).to_f / reviews.count.to_f).to_f
+  end
+end  
+```
+
+This method will return 0 if an airline has no reviews yet. Otherwise it will get the sum of all the review scores for an airline divided by the total number of reviews for that airline to get the average rating.
+
+So our full Airline model with our slugify method and avg_score method should now look like this:
+
+```ruby
+
+class Airline < ApplicationRecord
+  has_many :reviews
+
+  before_create :slugify
+
+  def slugify
+    self.slug = name.parameterize
+  end
+
+  def avg_score
+    return 0 unless reviews.size.positive?
+
+    (reviews.sum(:score).to_f / reviews.count.to_f).to_f
+  end
+end  
+```
+
 ## License
 ```
 Copyright (c) 2020 zayneio
