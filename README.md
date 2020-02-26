@@ -368,6 +368,15 @@ AirlineSerializer.new(airline).as_json
 }
 ```
 
+In the above examples, you can see that the only attributes shared within the attributes section are those that we have explicitly declared in our airline seriaizer.
+
+## Controllers
+Our app is going to have three controllers: an airlines controller, a reviews controller and a pages controller. Our pages controller will have a single index action that I'm going to use as the root path of our app. I'm also going to use Pages#index as a sort of catch-all for any requests outside of our api. This will come in handy once we start using react-router in a little, as we will need to be able to match routes to different components.
+
+For our airlines and reviews controllers, we are going to namespace everything under api/v1. Again, this will give us an easy way to manage routing from both the react side of our app and the rails side once we additionally start using react-router in a moment.
+
+For example, if a user navigates to /airlines in our app, on the react side we can load the necessary components to show a list of all airlines, and on the back end we can make the request to our Airline#index action in our controller as /api/v1/airlines to get a list of all of the airlines from our api.
+
 ## License
 ```
 Copyright (c) 2020 zayneio
