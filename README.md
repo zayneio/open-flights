@@ -377,6 +377,144 @@ For our airlines and reviews controllers, we are going to namespace everything u
 
 For example, if a user navigates to /airlines in our app, on the react side we can load the necessary components to show a list of all airlines, and on the back end we can make the request to our Airline#index action in our controller as /api/v1/airlines to get a list of all of the airlines from our api.
 
+### Routes
+Let's actually go ahead and set up our routes, adding our root path and our namespaced api resources:
+
+```ruby
+Rails.application.routes.draw do
+
+  root 'pages#index'
+
+  namespace :api do
+    namespace :v1 do
+      resources :airlines, param: :slug
+      resources :reviews, only: [:create, :destroy]
+    end
+  end
+
+  get '*path', to: 'pages#index', via: :all
+end   
+```
+
+Notice that I added `param: :slug` to our airlines resources so that we can use our slugs as the primary param for airlines instead of using id.
+
+### Airlines Controller
+Inside of `app/controllers`, let's create a new `api` folder, and inside of that, a new `v1` folder, and then inside of that let's create a new airlines controller, namespaced under`Api::V1`:
+
+```ruby
+module Api
+  module V1
+    class AirlinesController < ApplicationController
+    end
+  end
+end
+```
+
+### Airlines#index
+Now let's add an index method to our new controller. All we need to do for this method is get all of the airlines from our database, then render the data as JSON using our AirlineSerializer.
+
+To get all of our airlines, we can simply call all on our Airline model like so:
+```ruby
+airlines = Airline.all
+```
+
+Then we can pass our airlines variable as an argument into a new instance of our AirlineSerializer and return our data as serialized JSON like so:
+
+```ruby
+AirlineSerializer.new(airlines).serialized_json
+```
+
+So putting these two steps together, and then rendering the result as JSON from our controller, our index method should look like this:
+
+```ruby
+module Api
+  module V1
+    class AirlinesController < ApplicationController
+      def index
+        airlines = Airline.all
+
+        render json: AirlineSerializer.new(airlines).serialized_json
+      end
+    end
+  end
+end
+```
+
+### Airlines#show
+Our show method will also be pretty simple. For this we just need to find a specific airline, not by its id, but using it's slug as the param. We can do this by calling find_by on our Airline model and searching for a record that has a matching slug, like so:
+
+```ruby
+airline = Airline.find_by(slug: params[:slug])
+```
+
+Then, we will again render the resulting JSON using our AirlineSerializer. So our show method should look like this:
+
+```ruby
+module Api
+  module V1
+    class AirlinesController < ApplicationController
+      ...
+      
+      def show
+        airline = Airline.find_by(slug: params[:slug])
+
+        render json: AirlineSerializer.new(airlines).serialized_json
+      end
+    end
+  end
+end
+```
+
+### Airlines#create
+Before we add our create method, let's use strong paramaters to create a whitelist of allowed parameters when creating a new airline in our app. For now we will allow only `name` and `image_url`:
+
+```ruby
+module Api
+  module V1
+    class AirlinesController < ApplicationController
+      
+      ... 
+
+      private
+
+      def airline_params
+        params.require(:airline).permit(:name, :image_url)
+      end
+    end
+  end
+end
+```
+
+Then we can go ahead and add our create method. For this, we will simply initialize a new instance of Airline, passing in our airline_params. If everything is valid and saves, we will render data for our new airline again using our airline serializer, otherwise we will return an error:
+
+```ruby
+
+module Api
+  module V1
+    class AirlinesController < ApplicationController
+
+      ...
+
+      def create
+        airline = Airline.new(airline_params)
+
+        if airline.save
+          render json: AirlineSerializer.new(airline).serialized_json
+        else
+          render json: { error: airline.errors.messages }, status: 422
+        end
+      end
+
+      private
+
+      def airline_params
+        params.require(:airline).permit(:name, :image_url)
+      end
+    end
+  end
+end
+```
+
 ## License
 ```
 Copyright (c) 2020 zayneio
