@@ -281,7 +281,92 @@ Airline.first
 Notice that even though we only included the name and image_url in our seed data, we additionally have a slug value (in this case "united-airlines") because we added that slugify method to our airline model. We will use this slug shortly as the paramater to find records by in our controllers, instead of using the id param.
 
 
+## Serializers: Building Our JSON API
 
+For this app we are going to use [fast_jsonapi](https://github.com/Netflix/fast_jsonapi), a gem created by the Netflix engineering team. If you have ever used Active Model Serializer (AMS), you will likely notice some similarities.
+
+with fast_jsonapi, we can create the exact structure for the data we want to expose in our api, and then use that when we render json from within our controllers.
+
+Let's install the fast_jsonapi gem, by adding it to our Gemfile:
+
+```ruby
+gem 'fast_jsonapi'
+```
+
+Then we can install it with bundle install from our terminal:
+
+```shell
+bundle install
+```
+
+Now we can use a generator to create a new airline serializer and review serializer, passing along the specific attributes we want to expose in our api:
+
+```shell
+rails g serializer Airline name slug image_url
+```
+
+```shell
+rails g serializer Review title description score airline_id
+```
+
+This will create a new serializer folder in our app and create a new airline serializer that should so far look like this:
+
+```ruby
+class AirlineSerializer
+  include FastJsonapi::ObjectSerializer
+  attributes :name, :slug, :image_url
+end
+```   
+
+And a reviews serializer that should look like this:
+
+```ruby
+class ReviewSerializer
+  include FastJsonapi::ObjectSerializer
+  attributes :title, :description, :score, :airline_id
+end  
+```
+
+For our airlines serializer, we want to include the relationship with reviews in our serialized json. We can add this simply by adding `has_many :reviews` into our serializer. So then our serializer should look like this:
+
+```ruby
+class AirlineSerializer
+  include FastJsonapi::ObjectSerializer
+  attributes :name, :slug, :image_url
+  has_many :reviews
+end
+```
+
+Let's take a quick look at how we can use our serializers now to structure our api. If we jump into a rails console (`rails c`) in our terminal, let's get the first airline from our database. Then we can initialize a new instance of our airline serializer with that record and return the result as serialized json:
+
+```ruby
+# Get the first airline record from our database
+airline = Airline.first
+=> #<Airline id: 1, name: "United Airlines", slug: "united-airlines", image_url: "https://open-flights.s3.amazonaws.com/United-Airlines.png", created_at: "2019-12-26 23:02:58", updated_at: "2019-12-26 23:02:58">
+
+# Serialized JSON
+AirlineSerializer.new(airline).serialized_json
+=> "{\"data\":{\"id\":\"1\",\"type\":\"airline\",\"attributes\":{\"name\":\"United Airlines\",\"slug\":\"united-airlines\",\"image_url\":\"https://open-flights.s3.amazonaws.com/United-Airlines.png\"},\"relationships\":{\"reviews\":{\"data\":[]}}}}"
+
+# Formatted JSON
+AirlineSerializer.new(airline).as_json
+=> {
+  "data" => {
+    "id" => "1", 
+    "type" => "airline", 
+    "attributes" =>  {
+      "name" => "United Airlines", 
+      "slug" => "united-airlines", 
+      "image_url" => "https://open-flights.s3.amazonaws.com/United-Airlines.png"
+    }, 
+    "relationships" => {
+      "reviews" => {
+        "data" => []
+      }
+    }
+  }
+}
+```
 
 ## License
 ```
