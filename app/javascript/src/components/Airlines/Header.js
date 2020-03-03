@@ -15,10 +15,12 @@ const Subheader = styled.p`
 `
 
 const Header = () => {
-  <Wrapper>
-  <h1>OpenFlights</h1>
-  <Subheader>Honest, unbiased airline reviews. Share your experience.</Subheader>
-  </Wrapper>
+  return(
+    <Wrapper>
+    <h1>OpenFlights</h1>
+    <Subheader>Honest, unbiased airline reviews. Share your experience.</Subheader>
+    </Wrapper>
+  )
 }
 
 export default Header

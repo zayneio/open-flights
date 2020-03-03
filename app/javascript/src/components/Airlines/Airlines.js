@@ -46,6 +46,7 @@ const Airlines = () => {
 
   return (
     <Home>
+      <Header/>
       <Grid>{airlineGrid}</Grid>
     </Home>
   )
