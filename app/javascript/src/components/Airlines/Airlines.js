@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Airline from './Airline'
+import Header from './Header'
 import styled from 'styled-components'
 
 const Home = styled.div`
   text-align:center;
-`
-
-const Header = styled.div`
-  padding:100px 100px 10px 100px;
-  
-  h1 {
-    font-size:42px;
-  }
-`
-
-const Subheader = styled.p`
-  font-weight:300;
-  font-size:26px;
 `
 
 const Grid = styled.div`
@@ -39,32 +27,26 @@ const Airlines = () => {
 
   useEffect(() => {
     axios.get('/api/v1/airlines.json')
-    .then( resp => {
-      let result = resp.data.data.map( (airline, index) => { 
-        return (
-          <Airline 
-            key={index} 
-            name={airline.attributes.name} 
-            image_url={airline.attributes.image_url} 
-            slug={airline.attributes.slug}
-            avg_score={airline.attributes.avg_score}
-          />
-        )
-      })
-
-      return setAirlines(result)
-    })
+    .then( resp => setAirlines(resp.data.data))
     .catch( data => console.log('error', data))
 
   }, [airlines.length])
 
+  const airlineGrid = airlines.map( (a, i) => { 
+    return (
+      <Airline 
+        key={i} 
+        name={a.attributes.name} 
+        image_url={a.attributes.image_url} 
+        slug={a.attributes.slug}
+        avg_score={a.attributes.avg_score}
+      />
+    )
+  })
+
   return (
     <Home>
-      <Header>
-        <h1>OpenFlights</h1>
-        <Subheader>Honest, unbiased airline reviews. Share your experience.</Subheader>
-      </Header>
-      <Grid>{airlines}</Grid>
+      <Grid>{airlineGrid}</Grid>
     </Home>
   )
 }

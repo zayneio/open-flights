@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Review from './Review'
 import ReviewForm from './ReviewForm'
 import Header from './Header'
-import GetNested from '../utils/GetNested'
+import GetNested from '../../utils/GetNested'
 
 const Column = styled.div`
   background: #fff; 
@@ -79,11 +79,14 @@ const Airline = (props) => {
 
   const name = GetNested(airline, 'data', 'attributes', 'name')
   const image_url = GetNested(airline, 'data', 'attributes', 'image_url')
-  const total = airline.included ? airline.included.reduce((total, review) => total + review.attributes.score, 0) : 0
-  const average = total > 0 ? (parseFloat(total) / parseFloat(airline.included.length)) : 0
+  
+  let total, average = 0
+  let reviews, included
 
-  let reviews
   if (airline.included) {
+    total = airline.included.reduce((total, review) => total + review.attributes.score, 0)
+    average = total > 0 ? (parseFloat(total) / parseFloat(airline.included.length)) : 0
+    
     reviews = airline.included.map( (review, index) => {
       return (
         <Review 
