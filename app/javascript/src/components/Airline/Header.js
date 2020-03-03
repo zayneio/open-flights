@@ -23,12 +23,13 @@ const ScoreOutOf = styled.div`
 
 const Header = (props) => {
   const { image_url, name, reviews, average } = props
+  const reviewCount = reviews ? reviews.length : 0
 
   return (
     <Wrapper>
       <h1><img src={image_url} height="50" width="50" alt={name} /> {name}</h1>
       <div>
-        <UserReviewCount><span className="review-count">{reviews.length}</span> user reviews</UserReviewCount>
+        <UserReviewCount><span className="review-count">{reviewCount}</span> user reviews</UserReviewCount>
         <Rating score={average} />
         <ScoreOutOf>{average.toFixed(1)} out of 5 stars</ScoreOutOf>       
       </div>

@@ -22,7 +22,6 @@ const Column = styled.div`
 
 const Airline = (props) => {
   const [airline, setAirline] = useState({ data: {  attributes: { name: '', image_url: '', average: 0 } } })
-  const [reviews, setReviews] = useState([])
   const [review, setReview] = useState({title: '', description: '', score: 0 })
 
   useEffect(()=> {
@@ -32,7 +31,6 @@ const Airline = (props) => {
     axios.get(url)
     .then( (resp) => {
       setAirline(resp.data)
-      setReviews(resp.data.included)
     })
     .catch( data => console.log('Error', data) )
   }, [])
@@ -52,23 +50,24 @@ const Airline = (props) => {
 
     axios.post('/api/v1/reviews', { ...review, airline_id })
     .then( (resp) => {
-      setReviews([...reviews, resp.data.data])
+      const included = [ ...airline.included, resp.data.data ]
+      setAirline({ ...airline, included })
       setReview({ title: '', description: '', score: 0 })
     })
     .catch( data => console.log('Error', data) )
   }
-  
+
   // Destroy a review
   const handleDestroy = (id, e) => {
     e.preventDefault()
 
     axios.delete(`/api/v1/reviews/${id}`)
     .then( (data) => {
-      const updatedReviews = [...reviews]
-      const index = updatedReviews.findIndex( (data) => data.id == id )
-      updatedReviews.splice(index, 1)
+      const included = [...airline.included]
+      const index = included.findIndex( (data) => data.id == id )
+      included.splice(index, 1)
 
-      setReviews(updatedReviews)
+      setAirline({ ...airline, included })
     })
     .catch( data => console.log('Error', data) )
   }
@@ -80,21 +79,24 @@ const Airline = (props) => {
   }
 
   const { name, image_url } = airline.data.attributes
-  const total = reviews.length > 0 ? reviews.reduce((total, review) => total + review.attributes.score, 0) : 0
-  const average = total > 0 ? (parseFloat(total) / parseFloat(reviews.length)) : 0
+  const total = airline.included ? airline.included.reduce((total, review) => total + review.attributes.score, 0) : 0
+  const average = total > 0 ? (parseFloat(total) / parseFloat(airline.included.length)) : 0
 
-  const allReviews = reviews.map( (review, index) => {
-    return (
-      <Review 
-        key={index}
-        id={review.id}
-        title={review.attributes.title} 
-        description={review.attributes.description} 
-        score={review.attributes.score}
-        handleDestroy={handleDestroy}
-      />
-    )
-  })
+  let reviews
+  if (airline.included) {
+    reviews = airline.included.map( (review, index) => {
+      return (
+        <Review 
+          key={index}
+          id={review.id}
+          title={review.attributes.title} 
+          description={review.attributes.description} 
+          score={review.attributes.score}
+          handleDestroy={handleDestroy}
+        />
+      )
+    })
+  }
 
   return(
     <div>
@@ -102,10 +104,10 @@ const Airline = (props) => {
         <Header 
           image_url={image_url}
           name={name}
-          reviews={reviews}
+          reviews={airline.included}
           average={average}
         />
-        {allReviews}
+        {reviews}
       </Column>
       <Column>
         <ReviewForm
