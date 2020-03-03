@@ -15,6 +15,7 @@ Some of the features of this app include:
 
 ## Running it locally
 - run `bundle exec rails db:prepare`
+- run `npm install` or `yarn install`
 - run `bundle exec rails s`
 - (optional) in another tab run `./bin/webpack-dev-server`
 - navigate to `http://localhost:3000`
