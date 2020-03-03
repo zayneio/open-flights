@@ -37,15 +37,17 @@ const Icon = styled.button`
 `
 
 const Review = (props) => {
+  const attributes = props.attributes
+
   return (
     <Card>
       <Title>
-        {props.title}
+        {attributes.title}
       </Title>
       <Description>
-        {props.description}
+        {attributes.description}
       </Description>
-      <Rating score={props.score}/>
+      <Rating score={attributes.score}/>
       <Options>
         <Icon onClick={props.handleDestroy.bind(this, props.id)}> <i className="fa fa-trash"></i></Icon>
         <Icon> <i className="fa fa-pencil"></i></Icon>

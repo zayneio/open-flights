@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Review from './Review'
 import ReviewForm from './ReviewForm'
 import Header from './Header'
+import GetNested from '../utils/GetNested'
 
 const Column = styled.div`
   background: #fff; 
@@ -21,8 +22,8 @@ const Column = styled.div`
 `
 
 const Airline = (props) => {
-  const [airline, setAirline] = useState({ data: {  attributes: { name: '', image_url: '', average: 0 } } })
-  const [review, setReview] = useState({title: '', description: '', score: 0 })
+  const [airline, setAirline] = useState({})
+  const [review, setReview] = useState({})
 
   useEffect(()=> {
     const slug = props.match.params.slug
@@ -76,7 +77,8 @@ const Airline = (props) => {
     setReview({ ...review, score })
   }
 
-  const { name, image_url } = airline.data.attributes
+  const name = GetNested(airline, 'data', 'attributes', 'name')
+  const image_url = GetNested(airline, 'data', 'attributes', 'image_url')
   const total = airline.included ? airline.included.reduce((total, review) => total + review.attributes.score, 0) : 0
   const average = total > 0 ? (parseFloat(total) / parseFloat(airline.included.length)) : 0
 
@@ -87,9 +89,7 @@ const Airline = (props) => {
         <Review 
           key={index}
           id={review.id}
-          title={review.attributes.title} 
-          description={review.attributes.description} 
-          score={review.attributes.score}
+          attributes={review.attributes}
           handleDestroy={handleDestroy}
         />
       )
