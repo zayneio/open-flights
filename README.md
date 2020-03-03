@@ -7,8 +7,6 @@ This app is meant to be a simple example of a CRUD app built with **Ruby on Rail
 
 ![OpenFlights Preview](https://zayne.io/assets/open-flights-show-1986b48fc8c72d4b62fbf8ac2ee800b1227aaa649bfe90874d17ead73dd493a5.png)
 
-![OpenFlights Demo](https://github.com/zayneio/open-flights/blob/master/app/assets/images/openflights-demo.gif?raw=true)
-
 ---
 
 Some of the features of this app include:
