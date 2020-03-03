@@ -105,45 +105,40 @@ const RatingBoxTitle = styled.div`
   font-weight: bold;
 `
 
-class ReviewForm extends Component {
-  constructor(props){
-    super(props)
-  }
-
-  render(){
-    const ratingOptions = [5,4,3,2,1].map((score, index) => {
-      return (
-        <FakeParent key={index}>
-          <input type="radio" value={score} checked={this.props.review.score == score} onChange={()=>console.log('onChange')} name="rating" id={`rating-${score}`}/>
-          <label onClick={this.props.setRating.bind(this, score)}></label>
-        </FakeParent>
-      )
-    })
-
+const ReviewForm = (props) =>{
+  const ratingOptions = [5,4,3,2,1].map((score, index) => {
     return (
-      <ReviewWrapper>
-        <form onSubmit={this.props.handleSubmit}>
-          <ReviewHeadline>Have An Experience with {this.props.name}? Add Your Review!</ReviewHeadline>
-          <Field>
-            <input onChange={this.props.handleChange} type="text" name="title" placeholder="Review Title" value={this.props.review.title}/>
-          </Field>
-          <Field>
-            <input onChange={this.props.handleChange} type="text" name="description" placeholder="Review Description" value={this.props.review.description}/>
-          </Field>
-          <Field>
-            <RatingContainer>
-              <RatingBoxTitle>Rate This Airline</RatingBoxTitle>
-              <RatingBox>
-                {ratingOptions}
-              </RatingBox>
-            </RatingContainer>
-          </Field>
-
-          <SubmitBtn type="Submit">Create Review</SubmitBtn>
-        </form>
-      </ReviewWrapper>
+      <FakeParent key={index}>
+        <input type="radio" value={score} checked={props.review.score == score} onChange={()=>console.log('onChange')} name="rating" id={`rating-${score}`}/>
+        <label onClick={props.setRating.bind(this, score)}></label>
+      </FakeParent>
     )
-  }
+  })
+
+  return (
+    <ReviewWrapper>
+      <form onSubmit={props.handleSubmit}>
+        <ReviewHeadline>Have An Experience with {props.name}? Add Your Review!</ReviewHeadline>
+        <Field>
+          <input onChange={props.handleChange} type="text" name="title" placeholder="Review Title" value={props.review.title}/>
+        </Field>
+        <Field>
+          <input onChange={props.handleChange} type="text" name="description" placeholder="Review Description" value={props.review.description}/>
+        </Field>
+        <Field>
+          <RatingContainer>
+            <RatingBoxTitle>Rate This Airline</RatingBoxTitle>
+            <RatingBox>
+              {ratingOptions}
+            </RatingBox>
+          </RatingContainer>
+        </Field>
+
+        <SubmitBtn type="Submit">Create Review</SubmitBtn>
+      </form>
+    </ReviewWrapper>
+  )
+
 }
 
 export default ReviewForm
