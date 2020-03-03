@@ -133,12 +133,10 @@ const ReviewForm = (props) =>{
             </RatingBox>
           </RatingContainer>
         </Field>
-
         <SubmitBtn type="Submit">Create Review</SubmitBtn>
       </form>
     </ReviewWrapper>
   )
-
 }
 
 export default ReviewForm
