@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Airline from './Airline'
 import styled from 'styled-components'
@@ -34,25 +34,13 @@ const Grid = styled.div`
   }
 `
 
-class Airlines extends Component {
-  state = {
-    airlines: []
-  }
-  
-  componentDidMount() {
+const Airlines = () => {
+  const [airlines, setAirlines] = useState([]);
+
+  useEffect(() => {
     axios.get('/api/v1/airlines.json')
     .then( resp => {
-      this.setState({ airlines: resp.data.data })
-    })
-    .catch( data => {
-      console.log('error', data)
-    })
-  }
-
-  render() {
-    let airlines
-    if (this.state.airlines.length > 0) {
-      airlines = this.state.airlines.map( (airline, index) => { 
+      let result = resp.data.data.map( (airline, index) => { 
         return (
           <Airline 
             key={index} 
@@ -63,20 +51,22 @@ class Airlines extends Component {
           />
         )
       })
-    }
 
-    return (
-      <Home>
-        <Header>
-          <h1>OpenFlights</h1>
-          <Subheader>Honest, unbiased airline reviews. Share your experience.</Subheader>
-        </Header>
-        <Grid>
-         {airlines}
-        </Grid>
-      </Home>
-    )
-  }
+      return setAirlines(result)
+    })
+    .catch( data => console.log('error', data))
+
+  }, [airlines.length])
+
+  return (
+    <Home>
+      <Header>
+        <h1>OpenFlights</h1>
+        <Subheader>Honest, unbiased airline reviews. Share your experience.</Subheader>
+      </Header>
+      <Grid>{airlines}</Grid>
+    </Home>
+  )
 }
 
 export default Airlines

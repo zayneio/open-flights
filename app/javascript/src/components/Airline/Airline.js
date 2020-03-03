@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 import Review from './Review'
-import Rating from '../Rating/Rating'
 import ReviewForm from './ReviewForm'
+import Header from './Header'
 
 const Column = styled.div`
   background: #fff; 
@@ -19,164 +19,105 @@ const Column = styled.div`
     display: none;
   }
 `
-const Header = styled.div`
-  padding: 50px 100px 50px 0px;
-  font-size:30px;
-  img {
-    padding-right: 10px;
-  }
-`
 
-const JumboSubHeader = styled.div`
-  font-weight: 300;
-  font-size: 26px;
-`
+const Airline = (props) => {
+  const [airline, setAirline] = useState({ data: {  attributes: { name: '', image_url: '', average: 0 } } })
+  const [reviews, setReviews] = useState([])
+  const [review, setReview] = useState({title: '', description: '', score: 0 })
 
-const UserReviewCount = styled.div`
-  font-size: 18px;
-  padding:10px 0;
-`
-
-const ScoreOutOf = styled.div`
-  padding-top: 12px;
-  font-size: 18px;
-  font-weight: bold;
-`
-
-const AirlineRating = styled.div``
-
-const RatingContainer = styled.div``
-
-class Airline extends Component {
-  state = {
-    airline: { 
-      data: { 
-        attributes: {
-          name: '', 
-          image_url: '', 
-          average: 0
-        } 
-      } 
-    },
-    reviews: [],
-    review: {
-      title: '', 
-      description: '', 
-      score: 0
-    }
-  }
-
-  componentDidMount(){
-    this.setBaseData()
-  }
-
-  handleChange = (e) => {
-    e.preventDefault()
-
-    this.setState({
-      review: Object.assign({}, this.state.review, {[e.target.name]: e.target.value})
-    })
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault()
-
-    const airline_id = parseInt(this.state.airline.data.id)
-    const review = { ...this.state.review, airline_id }
-
-    axios.post('/api/v1/reviews', review)
-    .then( (resp) => {
-      this.setState({
-        reviews: [...this.state.reviews, resp.data.data],
-        review: { title: '', description: '', score: 0 }
-      })
-    })
-    .catch( data => console.log('Error', data) )
-  }
-
-  handleDestroy = (id, e) => {
-    e.preventDefault()
-
-    axios.delete(`/api/v1/reviews/${id}`)
-    .then( (data) => {
-      const reviews = [...this.state.reviews]
-      const index = reviews.findIndex( (data) => data.id == id )
-      reviews.splice(index, 1)
-
-      this.setState({reviews})
-    })
-    .catch( data => console.log('Error', data) )
-  }
-
-  setBaseData = () => {
-    const slug = this.props.match.params.slug
+  useEffect(()=> {
+    const slug = props.match.params.slug
     const url = `/api/v1/airlines/${slug}`
 
     axios.get(url)
     .then( (resp) => {
-      this.setState({
-        airline: resp.data,
-        reviews: resp.data.included
-      })
+      setAirline(resp.data)
+      setReviews(resp.data.included)
+    })
+    .catch( data => console.log('Error', data) )
+  }, [])
+
+  // Modify text in review form
+  const handleChange = (e) => {
+    e.preventDefault()
+
+    setReview(Object.assign({}, review, {[e.target.name]: e.target.value}))
+  }
+
+  // Create a review
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    const airline_id = parseInt(airline.data.id)
+
+    axios.post('/api/v1/reviews', { ...review, airline_id })
+    .then( (resp) => {
+      setReviews([...reviews, resp.data.data])
+      setReview({ title: '', description: '', score: 0 })
+    })
+    .catch( data => console.log('Error', data) )
+  }
+  
+  // Destroy a review
+  const handleDestroy = (id, e) => {
+    e.preventDefault()
+
+    axios.delete(`/api/v1/reviews/${id}`)
+    .then( (data) => {
+      const updatedReviews = [...reviews]
+      const index = updatedReviews.findIndex( (data) => data.id == id )
+      updatedReviews.splice(index, 1)
+
+      setReviews(updatedReviews)
     })
     .catch( data => console.log('Error', data) )
   }
 
-  setRating = (score, e) => {
+  // set score
+  const setRating = (score, e) => {
     e.preventDefault()  
-
-    let review = { ...this.state.review }
-    review.score = parseInt(score)
-
-    this.setState({review})
+    setReview({ ...review, score })
   }
 
-  render(){
-    let { name, image_url } = this.state.airline.data.attributes
-    let total_score = this.state.reviews.reduce((total, review) => total + review.attributes.score, 0)
-    let avg_score = total_score > 0 ? (parseFloat(total_score) / parseFloat(this.state.reviews.length)) : 0
+  const { name, image_url } = airline.data.attributes
+  const total = reviews.length > 0 ? reviews.reduce((total, review) => total + review.attributes.score, 0) : 0
+  const average = total > 0 ? (parseFloat(total) / parseFloat(reviews.length)) : 0
 
-    let reviews = this.state.reviews.map( (review, index) => {
-      return (
-        <Review 
-          key={index}
-          id={review.id}
-          title={review.attributes.title} 
-          description={review.attributes.description} 
-          score={review.attributes.score}
-          handleDestroy={this.handleDestroy}
-        />
-      )
-    })
-
-    return(
-      <div>
-        <Column>
-          <Header>
-            <h1>
-              <img src={image_url} height="50" width="50" alt={name} /> 
-              {name}
-            </h1>
-            <AirlineRating>
-              <UserReviewCount><span className="review-count">{this.state.reviews.length}</span> user reviews</UserReviewCount>
-              <Rating score={avg_score} />
-              <ScoreOutOf>{avg_score.toFixed(1)} out of 5 stars</ScoreOutOf>       
-            </AirlineRating>
-          </Header>
-          {reviews}
-        </Column>
-        <Column>
-          <ReviewForm
-            name={name}
-            review={this.state.review}
-            handleChange={this.handleChange}
-            handleSubmit={this.handleSubmit}
-            setRating={this.setRating}
-          />
-        </Column>
-      </div>
+  const allReviews = reviews.map( (review, index) => {
+    return (
+      <Review 
+        key={index}
+        id={review.id}
+        title={review.attributes.title} 
+        description={review.attributes.description} 
+        score={review.attributes.score}
+        handleDestroy={handleDestroy}
+      />
     )
-  }
+  })
+
+  return(
+    <div>
+      <Column>
+        <Header 
+          image_url={image_url}
+          name={name}
+          reviews={reviews}
+          average={average}
+        />
+        {allReviews}
+      </Column>
+      <Column>
+        <ReviewForm
+          name={name}
+          review={review}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          setRating={setRating}
+        />
+      </Column>
+    </div>
+  )
 }
 
 export default Airline
