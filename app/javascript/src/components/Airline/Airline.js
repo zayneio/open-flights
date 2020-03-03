@@ -29,9 +29,7 @@ const Airline = (props) => {
     const url = `/api/v1/airlines/${slug}`
 
     axios.get(url)
-    .then( (resp) => {
-      setAirline(resp.data)
-    })
+    .then( (resp) => setAirline(resp.data))
     .catch( data => console.log('Error', data) )
   }, [])
 
