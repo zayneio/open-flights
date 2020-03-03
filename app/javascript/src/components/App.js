@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './App.css'
 import { Route, Switch } from 'react-router-dom'
 import Airlines from './Airlines/Airlines'
 import Airline from './Airline/Airline'

@@ -14,8 +14,38 @@
  *= require_self
  */
 
+@font-face {
+  font-family: 'Poppins-Regular';
+  src: url('Poppins-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins-Light';
+  src: url('Poppins-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins-Medium';
+  src: url('Poppins-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins-Bold';
+  src: url('Poppins-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins-ExtraLight';
+  src: url('Poppins-ExtraLight.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins-ExtraBold';
+  src: url('Poppins-ExtraBold.ttf') format('truetype');
+}
+
 html, body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: 'Poppins-Regular', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   padding:0;
   margin: 0 15px;
 }
