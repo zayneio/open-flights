@@ -1,9 +1,9 @@
-.rating-wrapper {
+.star-wrapper {
   position: relative;
   display: inline-block;
 }
 
-.rating {
+.stars {
   color: #fcc201;
   position: absolute;
   top: 0;
@@ -12,7 +12,7 @@
   white-space: nowrap;
 }
 
-.rating-wrapper::before, .rating::before {
+.star-wrapper::before, .stars::before {
   font-family: "FontAwesome";
   content: "\f005 \0020 \f005 \0020 \f005 \0020 \f005 \0020 \f005";
 }

@@ -13,3 +13,18 @@
  *= require_tree .
  *= require_self
  */
+
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  padding:0;
+  margin: 0 15px;
+}
+
+textarea, select, input, button { 
+  outline: none; 
+}
+
+:focus {
+  outline-color: transparent;
+  outline-style: none;
+}

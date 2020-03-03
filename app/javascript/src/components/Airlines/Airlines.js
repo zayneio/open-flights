@@ -25,7 +25,7 @@ const Grid = styled.div`
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 20px;
   width: 100%;
-  padding:20px;
+  padding: 20px;
 
   > div {
     background-color: #fff;
