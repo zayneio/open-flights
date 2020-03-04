@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Review from './Review'
 import ReviewForm from './ReviewForm'
 import Header from './Header'
-import GetNested from '../../utils/GetNested'
+import GetNested from '../../utils/Helpers/GetNested'
 
 const Column = styled.div`
   background: #fff; 
