@@ -11,9 +11,10 @@ This app is meant to be a simple example of a CRUD app built with **Ruby on Rail
 
 Some of the features of this app include:
 
-* Ruby version: `2.6.0`
+* Ruby version: `2.6.5`
 * Rails version: `6.0.1`
-* Database: `postgres`
+* Database: `postgresql`
+* React version: `16.12.0`
 
 
 ## Running it locally
