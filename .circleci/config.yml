@@ -1,15 +1,8 @@
-version: 2.1
-orbs:
-  ruby: circleci/ruby@0.1.2 
-
-jobs:
-  build:
-    docker:
-      - image: circleci/ruby:2.6.5-stretch-node
-    executor: default
-    steps:
-      - checkout
-      - run:
-          name: Which bundler?
-          command: bundle -v
-      - ruby/bundle-install
+ version: 2
+ jobs:
+   build:
+     docker:
+       - image: circleci/ruby:2.4.1
+     steps:
+       - checkout
+       - run: echo "A first hello"
