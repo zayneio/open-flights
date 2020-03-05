@@ -1,36 +1,54 @@
-import React, { useState, useEffect }  from 'react'
+import React, { Component, useState, useEffect }  from 'react'
 import axios from 'axios'
 import Authenticate from '../../utils/Auth/Authenticate'
 
-const Register = (props) => {
-  const [user, setUser] = useState({ email: '', password: '' })
+class Register extends Component {
+  constructor(props){
+    super(props)
+    this.state = { email: '', password: '', auth: false, loading: false }
+  }
 
-  useEffect( () => {
-    if (Authenticate()) props.history.push("/") 
-  }, [] )
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-    axios.post('/api/v1/registrations', { user: { ...user } }, { withCredentials: true })
-    .then( resp => {
-      props.history.push("/") 
+  componentDidMount(){
+    Authenticate()
+    .then( (resp) => {
+      if (resp == true) {
+        // If auth is true, user is already registered. Get 'em outta here!
+        this.props.history.goBack()
+      } else {
+        // Update our state with auth and let our render method know we're ready for 'em
+        this.setState({ auth: resp, loading: true })
+      }
     })
     .catch( err => console.log(err))
   }
 
-  const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value })
-    console.log(user)
+  handleSubmit = (e) => {
+    e.preventDefault()
+
+    const user = { ...this.state }
+
+    axios.post('/api/v1/registrations', { user: { ...user } }, { withCredentials: true })
+    .then( resp =>  props.history.push("/") )
+    .catch( err => console.log(err))
   }
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <input onChange={handleChange} type="email" name="email"/>
-      <input onChange={handleChange} type="password" name="password"/>
-      <button type="submit">Login</button>
-    </form>
-  )
+  handleChange = (e) => this.setState({[e.target.name]: e.target.value })
+
+  render(){
+    return (
+      <div>
+        { 
+          this.state.loading ?
+          <Loader/> :
+          <form onSubmit={this.handleSubmit}>
+            <input onChange={this.handleChange} type="email" value={this.state.email} name="email"/>
+            <input onChange={this.handleChange} type="password"value={this.state.password} name="password"/>
+            <button type="submit">Login</button>
+          </form>   
+        }
+      </div>
+    )
+  }
 }
 
 export default Register

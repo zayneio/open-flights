@@ -6,6 +6,12 @@ import ReviewForm from './ReviewForm'
 import Header from './Header'
 import GetNested from '../../utils/Helpers/GetNested'
 
+const Wrapper = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1240px;
+`
+
 const Column = styled.div`
   background: #fff; 
   max-width: 50%;
@@ -100,7 +106,7 @@ const Airline = (props) => {
   }
 
   return(
-    <div>
+    <Wrapper>
       <Column>
         <Header 
           image_url={image_url}
@@ -119,7 +125,7 @@ const Airline = (props) => {
           setRating={setRating}
         />
       </Column>
-    </div>
+    </Wrapper>
   )
 }
 
