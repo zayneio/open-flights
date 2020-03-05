@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { Route, Link } from 'react-router-dom'
-import FakeParent from './FakeParent'
 
 const Wrapper = styled.nav`
   width: 100%;
@@ -78,14 +77,14 @@ const Navbar = (props) => {
             <Menu>
               {
                 props.auth ? 
-                <FakeParent>
+                <Fragment>
                   <li><Link to="/">Home</Link></li>
                   <li><a onClick={props.handleLogOut}>Log Out</a></li>
-                </FakeParent> :
-                <FakeParent>
+                </Fragment> :
+                <Fragment>
                   <li><Link to="/login">Login</Link></li>
                   <li><Link to="/register">Signup</Link></li>
-                </FakeParent>
+                </Fragment>
               }
             </Menu>
           </Right>
