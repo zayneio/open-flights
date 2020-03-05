@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Route, Link } from 'react-router-dom'
+import Loader from './Loader'
 
 const Wrapper = styled.nav`
   width: 100%;
@@ -54,6 +55,14 @@ const Logo = styled.span`
   font-family: 'Poppins-ExtraBold';
   font-weight: bold;
   font-size: 20px;
+
+  a {
+    font-size: inherit;
+    font-weight: inherit;
+    font-family: inherit;
+    color: #fff;
+    text-decoration: none;
+  }
 `
 
 const Navbar = () => {
@@ -62,12 +71,12 @@ const Navbar = () => {
       <Container>
         <Nav>
           <Left>
-            <Logo>OpenFlights</Logo>
+            <Logo><Link to="/">OpenFlights</Link></Logo>
           </Left>
           <Right>
             <Menu>
               <li><Link to="/login">Login</Link></li>
-              <li><Link to="/login">Signup</Link></li>
+              <li><Link to="/register">Signup</Link></li>
             </Menu>
           </Right>
         </Nav>  
