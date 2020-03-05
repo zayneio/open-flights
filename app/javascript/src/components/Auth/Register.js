@@ -1,5 +1,6 @@
 import React, { Component, useState, useEffect }  from 'react'
 import axios from 'axios'
+import AxiosHelper from '../../utils/Requests/AxiosHelper'
 import Authenticate from '../../utils/Auth/Authenticate'
 import Loader from '../Loader'
 import styled from 'styled-components'
@@ -90,6 +91,7 @@ class Register extends Component {
 
     const user = { ...this.state }
 
+    AxiosHelper()
     axios.post('/api/v1/registrations', { user: { ...user } }, { withCredentials: true })
     .then( resp =>  {
       debugger

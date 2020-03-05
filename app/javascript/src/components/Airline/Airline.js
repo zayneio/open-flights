@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import AxiosHelper from '../../utils/Requests/AxiosHelper'
 import styled from 'styled-components'
 import Review from './Review'
 import ReviewForm from './ReviewForm'
@@ -51,8 +52,9 @@ const Airline = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    const airline_id = parseInt(airline.data.id)
+    AxiosHelper()
 
+    const airline_id = parseInt(airline.data.id)
     axios.post('/api/v1/reviews', { ...review, airline_id })
     .then( (resp) => {
       const included = [ ...airline.included, resp.data.data ]

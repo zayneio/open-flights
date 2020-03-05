@@ -1,5 +1,6 @@
 import React, { Component }  from 'react'
 import axios from 'axios'
+import AxiosHelper from '../../utils/Requests/AxiosHelper'
 import Authenticate from '../../utils/Auth/Authenticate'
 import Loader from '../Loader'
 import styled from 'styled-components'
@@ -87,7 +88,8 @@ class Login extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-
+    
+    AxiosHelper()
     axios.post('/api/v1/auth', { user: { ...this.state } }, { withCredentials: true })
     .then( resp => props.history.push("/"))
     .catch( err => console.log(err))

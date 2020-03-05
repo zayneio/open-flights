@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Route, Link } from 'react-router-dom'
+import FakeParent from './FakeParent'
 
 const Wrapper = styled.nav`
   width: 100%;
@@ -38,6 +39,7 @@ const Right = styled.div`
   a {
     color: #fff;
     text-decoration: none;
+    cursor: pointer
   }
 `
 
@@ -64,7 +66,7 @@ const Logo = styled.span`
   }
 `
 
-const Navbar = () => {
+const Navbar = (props) => {
   return (
     <Wrapper>
       <Container>
@@ -74,8 +76,17 @@ const Navbar = () => {
           </Left>
           <Right>
             <Menu>
-              <li><Link to="/login">Login</Link></li>
-              <li><Link to="/register">Signup</Link></li>
+              {
+                props.auth ? 
+                <FakeParent>
+                  <li><Link to="/">Home</Link></li>
+                  <li><a onClick={props.handleLogOut}>Log Out</a></li>
+                </FakeParent> :
+                <FakeParent>
+                  <li><Link to="/login">Login</Link></li>
+                  <li><Link to="/register">Signup</Link></li>
+                </FakeParent>
+              }
             </Menu>
           </Right>
         </Nav>  
