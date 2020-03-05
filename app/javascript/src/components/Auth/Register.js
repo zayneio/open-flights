@@ -1,6 +1,7 @@
 import React, { Component, useState, useEffect }  from 'react'
 import axios from 'axios'
 import Authenticate from '../../utils/Auth/Authenticate'
+import Loader from '../Loader'
 
 class Register extends Component {
   constructor(props){
@@ -11,12 +12,12 @@ class Register extends Component {
   componentDidMount(){
     Authenticate()
     .then( (resp) => {
-      if (resp == true) {
+      if (resp) {
         // If auth is true, user is already registered. Get 'em outta here!
         this.props.history.goBack()
       } else {
         // Update our state with auth and let our render method know we're ready for 'em
-        this.setState({ auth: resp, loading: true })
+        this.setState({ auth: resp, loading: false})
       }
     })
     .catch( err => console.log(err))

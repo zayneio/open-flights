@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Route, Link } from 'react-router-dom'
-import Loader from './Loader'
 
 const Wrapper = styled.nav`
   width: 100%;
