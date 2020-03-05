@@ -1,7 +1,7 @@
 module Api
   module V1
-    class ReviewsController < ApplicationController
-      protect_from_forgery with: :null_session
+    class ReviewsController < ApiController
+      before_action :authenticate
 
       # POST /api/v1/reviews
       def create
