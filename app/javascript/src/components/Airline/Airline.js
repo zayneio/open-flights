@@ -61,7 +61,7 @@ const Airline = (props) => {
       const included = [ ...airline.included, resp.data.data ]
       setAirline({ ...airline, included })
       setReview({ title: '', description: '', score: 0 })
-      setError({})
+      setError('')
     })
     .catch( resp => {
       let error

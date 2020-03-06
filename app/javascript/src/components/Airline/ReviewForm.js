@@ -146,7 +146,7 @@ const ReviewForm = (props) =>{
         <SubmitBtn type="Submit">Create Review</SubmitBtn>
         { 
           props.error && 
-        <Error>{props.error}</Error>
+          <Error>{props.error}</Error>
         }
       </form>
     </ReviewWrapper>
