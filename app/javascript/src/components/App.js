@@ -9,6 +9,7 @@ import Authenticate from '../utils/Auth/Authenticate'
 import Navbar from './Navbar'
 import axios from 'axios'
 import AxiosHelper from '../utils/Requests/AxiosHelper'
+import { AuthProvider } from './AuthContext'
 
 class App extends Component {
   constructor(props){
@@ -34,7 +35,7 @@ class App extends Component {
 
   render(){
     return(
-      <Fragment>
+      <AuthProvider>
         <Navbar handleLogOut={this.handleLogOut} auth={this.state.auth}/>
         <Switch>
           <Route exact path="/" component={Airlines} />
@@ -42,7 +43,7 @@ class App extends Component {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
         </Switch>
-      </Fragment>
+      </AuthProvider>
     )
   }
 }

@@ -2,6 +2,7 @@ import React, { Component, useState, useEffect }  from 'react'
 import axios from 'axios'
 import AxiosHelper from '../../utils/Requests/AxiosHelper'
 import Authenticate from '../../utils/Auth/Authenticate'
+import { AuthConsumer } from '../AuthContext'
 import Loader from '../Loader'
 import styled from 'styled-components'
 
@@ -67,9 +68,10 @@ const Field = styled.div`
 `
 
 class Register extends Component {
+  state = { email: '', password: '', auth: false, loading: true }
+
   constructor(props){
     super(props)
-    this.state = { email: '', password: '', auth: false, loading: true }
   }
 
   componentDidMount(){
@@ -86,48 +88,38 @@ class Register extends Component {
     .catch( err => console.log(err))
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault()
-
-    const user = { ...this.state }
-
-    AxiosHelper()
-    axios.post('/api/v1/registrations', { user: { ...user } }, { withCredentials: true })
-    .then( resp =>  {
-      debugger
-      this.props.history.push("/") 
-    })
-    .catch( err => console.log(err))
-  }
-
   handleChange = (e) => this.setState({[e.target.name]: e.target.value })
 
   render(){
     return (
-      <LoginWrapper>
-        <FormWrapper>
-          <FormContainer>
-            <div>
-              { 
-                this.state.loading ?
-                <Loader/> :
-                <Form onSubmit={this.handleSubmit}>
-                  <h1>Sign Up</h1>
-                  <Field>
-                    <label>Email</label>
-                    <Input onChange={this.handleChange} type="email" value={this.state.email} placeholder="email" name="email"/>
-                  </Field>
-                  <Field>
-                    <label>Password</label>
-                    <Input onChange={this.handleChange} type="password"value={this.state.password} placeholder="password" name="password"/>
-                  </Field>
-                  <LoginButton type="submit">Login</LoginButton>
-                </Form>   
-              }
-            </div>
-          </FormContainer>
-        </FormWrapper>
-      </LoginWrapper>
+      <AuthConsumer>
+        { ({ isAuth, signup }) => (
+          <LoginWrapper>
+            <FormWrapper>
+              <FormContainer>
+                <div>
+                  { 
+                    this.state.loading ?
+                    <Loader/> :
+                    <Form onSubmit={signup.bind(this, this.state, this.props)}>
+                      <h1>Sign Up</h1>
+                      <Field>
+                        <label>Email</label>
+                        <Input onChange={this.handleChange} type="email" value={this.state.email} placeholder="email" name="email"/>
+                      </Field>
+                      <Field>
+                        <label>Password</label>
+                        <Input onChange={this.handleChange} type="password"value={this.state.password} placeholder="password" name="password"/>
+                      </Field>
+                      <LoginButton type="submit">Login</LoginButton>
+                    </Form>   
+                  }
+                </div>
+              </FormContainer>
+            </FormWrapper>
+          </LoginWrapper>
+        )}
+      </AuthConsumer>
     )
   }
 }
