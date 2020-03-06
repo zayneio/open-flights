@@ -31,6 +31,7 @@ const Column = styled.div`
 const Airline = (props) => {
   const [airline, setAirline] = useState({})
   const [review, setReview] = useState({})
+  const [error, setError] = useState('')
 
   useEffect(()=> {
     const slug = props.match.params.slug
@@ -60,8 +61,19 @@ const Airline = (props) => {
       const included = [ ...airline.included, resp.data.data ]
       setAirline({ ...airline, included })
       setReview({ title: '', description: '', score: 0 })
+      setError({})
     })
-    .catch( data => console.log('Error', data) )
+    .catch( resp => {
+      let error
+      switch(resp.message){
+        case "Request failed with status code 401":
+          error = 'Please log in to leave a review.'
+          break
+        default:
+          error = 'Something went wrong.'
+      }
+      setError(error)
+    })
   }
 
   // Destroy a review
@@ -125,6 +137,7 @@ const Airline = (props) => {
           handleChange={handleChange}
           handleSubmit={handleSubmit}
           setRating={setRating}
+          error={error}
         />
       </Column>
     </Wrapper>
