@@ -5,7 +5,7 @@ module Api
 
       # POST /api/v1/reviews
       def create
-        review = Review.new(review_params)
+        review = current_user.reviews.new(review_params)
 
         if review.save
           render json: ReviewSerializer.new(review).serialized_json
@@ -16,7 +16,7 @@ module Api
 
       # DELETE /api/v1/reviews/:id
       def destroy
-        review = Review.find(params[:id])
+        review = current_user.reviews.find(params[:id])
 
         if review.destroy
           head :no_content

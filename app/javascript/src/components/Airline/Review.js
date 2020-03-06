@@ -11,12 +11,14 @@ const Card = styled.div`
 `
 
 const Title = styled.div`
-  padding: 20px 0px;
-  font-weight: bold;
+  padding: 20px 0px 0px 0px;
+  font-family: 'Poppins-Bold';
+  font-size: 18px;
 `
 
 const Description = styled.div`
   padding: 0 0 20px 0;
+  font-size: 14px;
 `
 const Options = styled.div`
 position:absolute;
@@ -36,6 +38,12 @@ const Icon = styled.button`
   }
 `
 
+const Author = styled.div`
+  font-size: 16px;
+  font-family: 'Poppins-Bold';
+`
+
+
 const Review = (props) => {
   const attributes = props.attributes
 
@@ -44,10 +52,11 @@ const Review = (props) => {
       <Title>
         {attributes.title}
       </Title>
+      <Rating score={attributes.score}/>
+      <Author>{attributes.email} Says:</Author>
       <Description>
         {attributes.description}
       </Description>
-      <Rating score={attributes.score}/>
       <Options>
         <Icon onClick={props.handleDestroy.bind(this, props.id)}> <i className="fa fa-trash"></i></Icon>
         <Icon> <i className="fa fa-pencil"></i></Icon>
