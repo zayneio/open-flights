@@ -15,6 +15,8 @@ Some of the features of this app include:
 * Rails version: `6.0.1`
 * Database: `postgresql`
 * React version: `16.12.0`
+* React Hooks API
+* React Context API
 
 
 ## Running it locally
