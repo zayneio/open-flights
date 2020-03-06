@@ -10,38 +10,19 @@ import Navbar from './Navbar'
 import axios from 'axios'
 import AxiosHelper from '../utils/Requests/AxiosHelper'
 import { AuthProvider } from './AuthContext'
+import ProtectedRoute from './ProtectedRoute'
+import UnprotectedRoute from './UnprotectedRoute'
 
 class App extends Component {
-  constructor(props){
-    super(props)
-
-    this.state = {
-      auth: false
-    }
-  }
-
-  componentDidMount(){
-    Authenticate()
-    .then( (resp) => this.setState({ auth: resp }) )
-    .catch( err => console.log(err))
-  }
-
-  handleLogOut = () => {
-    AxiosHelper()
-    axios.delete('/api/v1/auth/logout')
-    .then( resp => this.props.history.push('/'))
-    .catch( err => console.log(err))
-  }
-
   render(){
     return(
       <AuthProvider>
-        <Navbar handleLogOut={this.handleLogOut} auth={this.state.auth}/>
+        <Navbar/>
         <Switch>
           <Route exact path="/" component={Airlines} />
           <Route exact path="/airlines/:slug" component={Airline} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
+          <UnprotectedRoute path="/login" component={Login}/>
+          <UnprotectedRoute exact path="/register" component={Register} />
         </Switch>
       </AuthProvider>
     )
