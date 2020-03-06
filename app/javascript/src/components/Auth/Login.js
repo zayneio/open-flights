@@ -1,9 +1,5 @@
-import React, { Component }  from 'react'
-import axios from 'axios'
-import AxiosHelper from '../../utils/Requests/AxiosHelper'
+import React, { Component, useState }  from 'react'
 import { AuthConsumer } from '../AuthContext'
-import Authenticate from '../../utils/Auth/Authenticate'
-import Loader from '../Loader'
 import styled from 'styled-components'
 
 const LoginWrapper = styled.div``
@@ -67,62 +63,35 @@ const Field = styled.div`
   width: 100%;
 `
 
-class Login extends Component {
-  constructor(props){
-    super(props)   
-    this.state = { email: '', password: '', auth: false, loading: true }
-  }
+const Login = (props) => {
+  const [user, setUser] = useState({ email: '', password: '', auth: false, loading: true })
 
-  componentDidMount(){
-    Authenticate()
-    .then( (resp) => {
-      if (resp) {
-      // If auth is true, user is already logged in. Get 'em outta here!
-        this.props.history.goBack()
-      } else {
-        // Update our state with auth and let our render method know we're ready for 'em
-        this.setState({ auth: resp, loading: false })
-      }
-    })
-    .catch( err => console.log(err))
-  }
+  const handleChange = (e) => setUser({ ...user, [e.target.name]: e.target.value })
 
-  handleChange = (e) => {
-    this.setState({ ...this.state, [e.target.name]: e.target.value })
-  }
-
-  render(){
-    return (
-      <AuthConsumer>
-        { ({ isAuth, login }) => (
-          <LoginWrapper>
-            <FormWrapper>
-              <FormContainer>
-                <div>
-                  { 
-                    this.state.loading ?
-                    <Loader/> :
-                    <Form onSubmit={login.bind(this, this.state, this.props)}>
-                      <h1>Log In</h1>
-                      <Field>
-                        <label>Email</label>
-                        <Input onChange={this.handleChange} type="email" value={this.state.email} placeholder="email" name="email"/>
-                      </Field>
-                      <Field>
-                        <label>Password</label>
-                        <Input onChange={this.handleChange} type="password"value={this.state.password} placeholder="password" name="password"/>
-                      </Field>
-                      <LoginButton type="submit">Login</LoginButton>
-                    </Form>   
-                  }
-                </div>
-              </FormContainer>
-            </FormWrapper>
-          </LoginWrapper>
-        )}
-      </AuthConsumer>
-    )
-  }
+  return (
+    <AuthConsumer>
+      { ({ isAuth, login }) => (
+        <LoginWrapper>
+          <FormWrapper>
+            <FormContainer>
+              <Form onSubmit={login.bind(this, user, props)}>
+                <h1>Log In</h1>
+                <Field>
+                  <label>Email</label>
+                  <Input onChange={handleChange} type="email" value={user.email} placeholder="email" name="email"/>
+                </Field>
+                <Field>
+                  <label>Password</label>
+                  <Input onChange={handleChange} type="password"value={user.password} placeholder="password" name="password"/>
+                </Field>
+                <LoginButton type="submit">Login</LoginButton>
+              </Form>   
+            </FormContainer>
+          </FormWrapper>
+        </LoginWrapper>
+      )}
+    </AuthConsumer>
+  )
 }
 
 export default Login

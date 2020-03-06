@@ -1,12 +1,8 @@
 import React, { Component, useState, useEffect }  from 'react'
-import axios from 'axios'
-import AxiosHelper from '../../utils/Requests/AxiosHelper'
-import Authenticate from '../../utils/Auth/Authenticate'
 import { AuthConsumer } from '../AuthContext'
-import Loader from '../Loader'
 import styled from 'styled-components'
 
-const LoginWrapper = styled.div``
+const SignUpWrapper = styled.div``
 const FormWrapper = styled.div`
   margin-top:50px;
 `
@@ -75,7 +71,7 @@ const Register = (props) => {
   return (
     <AuthConsumer>
       { ({ isAuth, signup }) => (
-        <LoginWrapper>
+        <SignUpWrapper>
           <FormWrapper>
             <FormContainer>
               <Form onSubmit={signup.bind(this, user, props)}>
@@ -92,7 +88,7 @@ const Register = (props) => {
               </Form>   
             </FormContainer>
           </FormWrapper>
-        </LoginWrapper>
+        </SignUpWrapper>
       )}
     </AuthConsumer>
   )
