@@ -67,61 +67,35 @@ const Field = styled.div`
   width: 100%;
 `
 
-class Register extends Component {
-  state = { email: '', password: '', auth: false, loading: true }
+const Register = (props) => {
+  const [user, setUser] = useState({ email: '', password: ''})
 
-  constructor(props){
-    super(props)
-  }
+  const handleChange = (e) => setUser({ ...user, [e.target.name]: e.target.value })
 
-  componentDidMount(){
-    Authenticate()
-    .then( (resp) => {
-      if (resp) {
-        // If auth is true, user is already registered. Get 'em outta here!
-        this.props.history.goBack()
-      } else {
-        // Update our state with auth and let our render method know we're ready for 'em
-        this.setState({ auth: resp, loading: false})
-      }
-    })
-    .catch( err => console.log(err))
-  }
-
-  handleChange = (e) => this.setState({[e.target.name]: e.target.value })
-
-  render(){
-    return (
-      <AuthConsumer>
-        { ({ isAuth, signup }) => (
-          <LoginWrapper>
-            <FormWrapper>
-              <FormContainer>
-                <div>
-                  { 
-                    this.state.loading ?
-                    <Loader/> :
-                    <Form onSubmit={signup.bind(this, this.state, this.props)}>
-                      <h1>Sign Up</h1>
-                      <Field>
-                        <label>Email</label>
-                        <Input onChange={this.handleChange} type="email" value={this.state.email} placeholder="email" name="email"/>
-                      </Field>
-                      <Field>
-                        <label>Password</label>
-                        <Input onChange={this.handleChange} type="password"value={this.state.password} placeholder="password" name="password"/>
-                      </Field>
-                      <LoginButton type="submit">Login</LoginButton>
-                    </Form>   
-                  }
-                </div>
-              </FormContainer>
-            </FormWrapper>
-          </LoginWrapper>
-        )}
-      </AuthConsumer>
-    )
-  }
+  return (
+    <AuthConsumer>
+      { ({ isAuth, signup }) => (
+        <LoginWrapper>
+          <FormWrapper>
+            <FormContainer>
+              <Form onSubmit={signup.bind(this, user, props)}>
+                <h1>Sign Up</h1>
+                <Field>
+                  <label>Email</label>
+                  <Input onChange={handleChange} type="email" value={user.email} placeholder="email" name="email"/>
+                </Field>
+                <Field>
+                  <label>Password</label>
+                  <Input onChange={handleChange} type="password"value={user.password} placeholder="password" name="password"/>
+                </Field>
+                <LoginButton type="submit">Login</LoginButton>
+              </Form>   
+            </FormContainer>
+          </FormWrapper>
+        </LoginWrapper>
+      )}
+    </AuthConsumer>
+  )
 }
 
 export default Register
