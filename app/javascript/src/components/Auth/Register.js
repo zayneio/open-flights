@@ -65,7 +65,6 @@ const Field = styled.div`
 
 const Register = (props) => {
   const [user, setUser] = useState({ email: '', password: ''})
-
   const handleChange = (e) => setUser({ ...user, [e.target.name]: e.target.value })
 
   return (

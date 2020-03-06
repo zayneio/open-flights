@@ -65,7 +65,6 @@ const Field = styled.div`
 
 const Login = (props) => {
   const [user, setUser] = useState({ email: '', password: '', auth: false, loading: true })
-
   const handleChange = (e) => setUser({ ...user, [e.target.name]: e.target.value })
 
   return (

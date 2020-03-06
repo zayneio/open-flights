@@ -23,7 +23,7 @@ class AuthProvider extends Component {
 
     AxiosHelper()
     axios.post('/api/v1/auth', { user: { ...user } }, { withCredentials: true })
-    .then( resp => {
+    .then( _resp => {
       this.setState({ isAuth: true })
       props.history.push("/")
     })
