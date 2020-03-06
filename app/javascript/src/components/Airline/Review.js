@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Rating from '../Rating/Rating'
+import Avatar from './Avatar'
 
 const Card = styled.div`
   border-radius: 4px;
@@ -8,6 +9,7 @@ const Card = styled.div`
   padding: 20px;
   margin: 0px 0px 20px 0px;
   position: relative;
+  margin-right: 12px;
 `
 
 const Title = styled.div`
@@ -41,19 +43,40 @@ const Icon = styled.button`
 const Author = styled.div`
   font-size: 16px;
   font-family: 'Poppins-Bold';
+  margin: 0 8px;
 `
 
+const RatingContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+const AvatarWrapper = styled.div`
+  width: 25px;
+  height: 25px;
+  background: green;
+  border-radius: 100%;
+  margin-right: 12px;
+  margin-bottom: -12px;
+
+  svg {
+    width: 25px;
+    height: 25px;
+  }
+`
 
 const Review = (props) => {
   const attributes = props.attributes
 
   return (
     <Card>
+      <RatingContainer>
+        <AvatarWrapper><Avatar/></AvatarWrapper>
+        <Rating score={attributes.score}/>
+        <Author>{attributes.email}</Author>
+      </RatingContainer>
       <Title>
         {attributes.title}
       </Title>
-      <Rating score={attributes.score}/>
-      <Author>{attributes.email} Says:</Author>
       <Description>
         {attributes.description}
       </Description>

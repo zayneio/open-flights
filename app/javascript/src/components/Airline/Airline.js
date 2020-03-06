@@ -10,7 +10,7 @@ import GetNested from '../../utils/Helpers/GetNested'
 const Wrapper = styled.div`
   margin-left: auto;
   margin-right: auto;
-  max-width: 1240px;
+  // max-width: 1240px;
 `
 
 const Column = styled.div`
@@ -26,6 +26,15 @@ const Column = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+
+  &:last-child {
+    background: black;
+    border-top: 1px solid #fff;
+  }
+`
+
+const Main = styled.div`
+  padding-left: 60px;
 `
 
 const Airline = (props) => {
@@ -122,13 +131,15 @@ const Airline = (props) => {
   return(
     <Wrapper>
       <Column>
-        <Header 
-          image_url={image_url}
-          name={name}
-          reviews={airline.included}
-          average={average}
-        />
-        {reviews}
+        <Main>
+          <Header 
+            image_url={image_url}
+            name={name}
+            reviews={airline.included}
+            average={average}
+          />
+          {reviews}
+        </Main>
       </Column>
       <Column>
         <ReviewForm
