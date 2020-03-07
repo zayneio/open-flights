@@ -63,21 +63,21 @@ const Field = styled.div`
   width: 100%;
 `
 
-const Login = (props) => {
+const Reset = (props) => {
   const [user, setUser] = useState({ email: '', password: '' })
   const [token, setToken] = useState('')
   const handleChange = (e) => setUser({ ...user, [e.target.name]: e.target.value })
 
   useEffect( ()=> {
+    // TODO: Clean this up
     const token = props.location.search.split('token=')[1].split('&')[0]
-    console.log(token)
     setToken(token)
   }, [])
 
   return (
     <AuthConsumer>
       { ({ resetPass }) => (
-        <LoginWrapper>
+        <ResetWrapper>
           <FormWrapper>
             <FormContainer>
               <Form onSubmit={resetPass.bind(this, user, token)}>
@@ -86,14 +86,14 @@ const Login = (props) => {
                   <label>New Password</label>
                   <Input onChange={handleChange} type="password" value={user.password} placeholder="password" name="password"/>
                 </Field>
-                <LoginButton type="submit">Save Password</LoginButton>
+                <ResetButton type="submit">Save Password</ResetButton>
               </Form>   
             </FormContainer>
           </FormWrapper>
-        </LoginWrapper>
+        </ResetWrapper>
       )}
     </AuthConsumer>
   )
 }
 
-export default Login
+export default Reset

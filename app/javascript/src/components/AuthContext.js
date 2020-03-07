@@ -49,7 +49,7 @@ class AuthProvider extends Component {
     axios.post('/api/v1/auth/password/forgot', { email: user.email })
     .then( resp => {
       this.setState({ isAuth: false })
-      props.history.push("/api/v1/auth/password/forgot/complete?success=true")
+      props.history.push("/forgot-password/complete?success=true")
     })
     .catch( err => console.log(err))
   }
