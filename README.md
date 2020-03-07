@@ -18,13 +18,23 @@ Some of the features of this app include:
 * React Hooks API
 * React Context API
 
-
 ## Running it locally
 - run `bundle exec rails db:prepare`
 - run `npm install` or `yarn install`
 - run `bundle exec rails s`
-- (optional) in another tab run `./bin/webpack-dev-server`
+- in another tab run `./bin/webpack-dev-server` (optional) 
+- in another tab run `sidekiq` (optional, but necessary for things like password reset emails)
 - navigate to `http://localhost:3000`
+
+## Env Vars
+If you want functionality like password reset emails to work locally, you'll need to set the following environment variables in `config/application.yml` with your own unique values:
+```
+ROOT_URL: http://localhost:3000
+SENDGRID_API_KEY: xxxxxxxxxxxxxx
+SENDGRID_USERNAME: xxxxxxxxxxxxxx
+SENDGRID_PASSWORD: xxxxxxxxxxxxxx
+DEFAULT_FROM_EMAIL: you@example.com
+```
 
 ## Routes
 ```shell
