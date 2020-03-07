@@ -26,7 +26,7 @@ Some of the features of this app include:
 - in another tab run `sidekiq` (optional, but necessary for things like password reset emails)
 - navigate to `http://localhost:3000`
 
-## Env Vars
+## Environment Variables
 If you want functionality like password reset emails to work locally, you'll need to set the following environment variables in `config/application.yml` with your own unique values:
 ```
 ROOT_URL: http://localhost:3000
