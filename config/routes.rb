@@ -9,7 +9,7 @@ Rails.application.routes.draw do
         collection do
           post 'password/forgot', to: 'auth#forgot_password'
           post 'password/reset', to: 'auth#reset_password'
-          get 'logged_in', to: 'auth#logged_in'
+          get 'me', to: 'auth#logged_in'
           delete 'logout', to: 'auth#logout'
         end
       end

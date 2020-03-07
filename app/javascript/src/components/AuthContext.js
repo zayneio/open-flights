@@ -6,7 +6,7 @@ import Authenticate from '../utils/Auth/Authenticate'
 const AuthContext = createContext()
 
 class AuthProvider extends Component {
-  state = { isAuth: false }
+  state = { isAuth: false, email: '' }
 
   constructor(props){
     super(props)
@@ -14,7 +14,7 @@ class AuthProvider extends Component {
 
   componentDidMount(){
     Authenticate()
-    .then( (resp) => this.setState({ isAuth: resp }) )
+    .then( (resp) => this.setState({ ...resp }) )
     .catch( err => console.log(err))
   }
 
@@ -83,6 +83,7 @@ class AuthProvider extends Component {
       <AuthContext.Provider
         value={{
           isAuth: this.state.isAuth,
+          email: this.state.email,
           signup: this.signup,
           login: this.login,
           logout: this.logout,

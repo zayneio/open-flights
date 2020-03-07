@@ -1,15 +1,15 @@
 import axios from 'axios'
 
 const Authenticate = async () => {
-  let loggedIn = false
-  await axios.get('/api/v1/auth/logged_in', { withCredentials: true })
+  let auth = { isAuth: false, email: '' }
+  await axios.get('/api/v1/auth/me', { withCredentials: true })
   .then( resp => {
-    loggedIn = resp.data.logged_in
-    return loggedIn
+    auth = { isAuth: resp.data.logged_in, email: resp.data.email }
+    return auth
   })
   .catch( err => console.log(err) )
 
-  return loggedIn
+  return auth
 }
 
 export default Authenticate
