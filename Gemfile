@@ -10,11 +10,16 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.12'
 gem 'webpacker'
 
+gem 'brakeman'
 gem 'bcrypt'
+gem 'bundler-audit'
 gem 'coffee-rails', '~> 4.2'
 gem 'fast_jsonapi'
+gem 'figaro'
 gem 'turbolinks', '~> 5'
 gem 'sass-rails', '~> 5.0'
+gem 'sendgrid-ruby'
+gem 'sidekiq'
 gem 'uglifier', '>= 1.3.0'
 
 group :development, :test do

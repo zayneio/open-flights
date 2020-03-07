@@ -45,6 +45,28 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
+  # MAILER SETTINGS IN DEVELOPMENT ENV
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_caching = false
+  # Print deprecation notices to the Rails logger.
+  config.active_support.deprecation = :log
+  # Raise an error on page load if there are pending migrations.
+  config.active_record.migration_error = :page_load
+  # Highlight code that triggered database queries in logs.
+  config.active_record.verbose_query_logs = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.sendgrid.net',
+    port: 587,
+    authentication: 'plain',
+    user_name: ENV['SENDGRID_USERNAME'],
+    password: ENV['SENDGRID_PASSWORD'],
+    domain: 'localhost:3000',
+    enable_starttls_auto: true,
+  }
+
+
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 

@@ -10,7 +10,6 @@ import GetNested from '../../utils/Helpers/GetNested'
 const Wrapper = styled.div`
   margin-left: auto;
   margin-right: auto;
-  // max-width: 1240px;
 `
 
 const Column = styled.div`
@@ -29,7 +28,7 @@ const Column = styled.div`
 
   &:last-child {
     background: black;
-    border-top: 1px solid #fff;
+    border-top: 1px solid rgba(255,255,255,0.5);
   }
 `
 

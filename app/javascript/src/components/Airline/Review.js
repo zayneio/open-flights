@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { AuthConsumer } from '../AuthContext'
 import Rating from '../Rating/Rating'
 import Avatar from './Avatar'
 
@@ -68,23 +69,31 @@ const Review = (props) => {
   const attributes = props.attributes
 
   return (
-    <Card>
-      <RatingContainer>
-        <AvatarWrapper><Avatar/></AvatarWrapper>
-        <Rating score={attributes.score}/>
-        <Author>{attributes.email}</Author>
-      </RatingContainer>
-      <Title>
-        {attributes.title}
-      </Title>
-      <Description>
-        {attributes.description}
-      </Description>
-      <Options>
-        <Icon onClick={props.handleDestroy.bind(this, props.id)}> <i className="fa fa-trash"></i></Icon>
-        <Icon> <i className="fa fa-pencil"></i></Icon>
-      </Options>
-    </Card>
+    <AuthConsumer>
+      { ({ isAuth, email }) => (
+        <Card>
+          <RatingContainer>
+            <AvatarWrapper><Avatar/></AvatarWrapper>
+            <Rating score={attributes.score}/>
+            <Author>{attributes.email}</Author>
+          </RatingContainer>
+          <Title>
+            {attributes.title}
+          </Title>
+          <Description>
+            {attributes.description}
+          </Description>
+            { 
+              isAuth &&
+              email === attributes.email && 
+              <Options>
+                <Icon onClick={props.handleDestroy.bind(this, props.id)}> <i className="fa fa-trash"></i></Icon>
+                <Icon> <i className="fa fa-pencil"></i></Icon>
+              </Options>
+            }
+        </Card>
+      )}
+    </AuthConsumer>
   )
 }
 

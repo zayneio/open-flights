@@ -7,7 +7,9 @@ Rails.application.routes.draw do
       resources :reviews, only: %i[create destroy]
       resources :auth, only: %i[create] do
         collection do
-          get 'logged_in', to: 'auth#logged_in'
+          post 'password/forgot', to: 'auth#forgot_password'
+          post 'password/reset', to: 'auth#reset_password'
+          get 'me', to: 'auth#logged_in'
           delete 'logout', to: 'auth#logout'
         end
       end
