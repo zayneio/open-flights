@@ -8,19 +8,16 @@ module Resettable
   def forgot_password
     user = User.find_by(email: params[:email])
 
-    if user
-      user.generate_password_token!
+    return render json: { error: 'Something went wrong.' }, status: 422 unless user
 
-      send_reset_password_email(user.email, user.reload.reset_password_token)
+    user.generate_password_token!
 
-      render json: { success: true }, status: 204
-    else
-      render json: { error: 'Something went wrong.' }, status: 422
-    end
+    send_reset_password_email(user.email, user.reload.reset_password_token)
+
+    render json: { success: true }, status: 204
   end
 
   def reset_password
-    byebug
     user = User.find_by(reset_password_token: params[:token])
 
     return invalid_reset unless user&.password_token_valid?
