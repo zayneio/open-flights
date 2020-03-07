@@ -534,6 +534,12 @@ module Api
 end
 ```
 
+---
+
+This README is still being written - check back soon!
+
+---
+
 ## License
 ```
 Copyright (c) 2020 zayneio
