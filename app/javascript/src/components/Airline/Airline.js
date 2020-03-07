@@ -10,7 +10,6 @@ import GetNested from '../../utils/Helpers/GetNested'
 const Wrapper = styled.div`
   margin-left: auto;
   margin-right: auto;
-  // max-width: 1240px;
 `
 
 const Column = styled.div`

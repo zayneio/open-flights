@@ -1,7 +1,9 @@
 module Api
   module V1
     class AuthController < ApiController
-      before_action :authenticate, except: %i[create logged_in]
+      include Resettable
+
+      before_action :authenticate, except: %i[create logged_in reset_password forgot_password]
 
       def create
         user = User.find_by(email: params[:user][:email]).try(:authenticate, params[:user][:password])

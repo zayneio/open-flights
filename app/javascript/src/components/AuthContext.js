@@ -42,6 +42,30 @@ class AuthProvider extends Component {
     .catch( err => console.log(err))
   }
 
+  forgotPass = (user, props, e) => {
+    e.preventDefault()
+
+    AxiosHelper()
+    axios.post('/api/v1/auth/password/forgot', { email: user.email })
+    .then( resp => {
+      this.setState({ isAuth: false })
+      props.history.push("/api/v1/auth/password/forgot/complete?success=true")
+    })
+    .catch( err => console.log(err))
+  }
+
+  resetPass = (user, token, e) => {
+    e.preventDefault()
+
+    AxiosHelper()
+    axios.post('/api/v1/auth/password/reset', { password: user.password, token })
+    .then( _resp => {
+      this.setState({ isAuth: false })
+      window.location.href = "/login"
+    })
+    .catch( err => console.log(err))
+  }
+
   logout = (e) => {
     e.preventDefault()
 
@@ -61,7 +85,9 @@ class AuthProvider extends Component {
           isAuth: this.state.isAuth,
           signup: this.signup,
           login: this.login,
-          logout: this.logout
+          logout: this.logout,
+          forgotPass: this.forgotPass,
+          resetPass: this.resetPass
         }}
       >
         {this.props.children}

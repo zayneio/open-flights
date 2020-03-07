@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>A request was made to reset your password. Please follow the link below to continue:</p> 
+    <p>
+      <a href="<%= ENV['ROOT_URL']%>/reset-password?email=<%= @email %>&token=<%= @token %>">Reset Password</a>
+    </p>
+  </body>
+</html>
