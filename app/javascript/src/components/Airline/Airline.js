@@ -28,7 +28,7 @@ const Column = styled.div`
 
   &:last-child {
     background: black;
-    border-top: 1px solid #fff;
+    border-top: 1px solid rgba(255,255,255,0.5);
   }
 `
 
