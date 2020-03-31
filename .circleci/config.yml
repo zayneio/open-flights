@@ -45,18 +45,18 @@ jobs:
           paths:
             - vendor/bundle
       # Only necessary if app uses webpacker or yarn in some other way
-      - run:
-          name: Yarn Install
-          command: yarn install --cache-folder ~/.cache/yarn
-      # Store yarn / webpacker cache
-      - save_cache:
-          key: open-flights-yarn-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
-      - restore_cache:
-          keys:
-            - open-flights-yarn-{{ checksum "yarn.lock" }}
-            - open-flights-yarn-
+      # - restore_cache:
+      #     keys:
+      #       - open-flights-yarn-{{ checksum "yarn.lock" }}
+      #       - open-flights-yarn-
+      # - run:
+      #     name: Yarn Install
+      #     command: yarn install --cache-folder ~/.cache/yarn
+      # # Store yarn / webpacker cache
+      # - save_cache:
+      #     key: open-flights-yarn-{{ checksum "yarn.lock" }}
+      #     paths:
+      #       - ~/.cache/yarn
   test:
     parallelism: 3
     docker:
@@ -71,10 +71,10 @@ jobs:
       - run:
           name: Bundle Install
           command: bundle check || bundle install
-      - restore_cache:
-          keys:
-            - open-flights-yarn-{{ checksum "yarn.lock" }}
-            - open-flights-yarn-
+      # - restore_cache:
+      #     keys:
+      #       - open-flights-yarn-{{ checksum "yarn.lock" }}
+      #       - open-flights-yarn-
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
