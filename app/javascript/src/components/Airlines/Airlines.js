@@ -35,14 +35,14 @@ const Airlines = () => {
 
   }, [airlines.length])
 
-  const airlineGrid = airlines.map( (a, i) => { 
+  const grid = airlines.map( (airline, index) => {
     return (
       <Airline 
-        key={i} 
-        name={a.attributes.name} 
-        image_url={a.attributes.image_url} 
-        slug={a.attributes.slug}
-        average_score={a.attributes.average_score}
+        key={index}
+        name={airline.attributes.name}
+        image_url={airline.attributes.image_url}
+        slug={airline.attributes.slug}
+        average_score={airline.attributes.average_score}
       />
     )
   })
@@ -50,7 +50,7 @@ const Airlines = () => {
   return (
     <Home>
       <Header/>
-      <Grid>{airlineGrid}</Grid>
+      <Grid>{grid}</Grid>
     </Home>
   )
 }
