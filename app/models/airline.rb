@@ -10,9 +10,11 @@ class Airline < ApplicationRecord
   end
 
   # Get the average score of all review for an airline
-  def avg_score
+  def calculate_average
     return 0 unless reviews.size.positive?
 
-    (reviews.sum(:score).to_f / reviews.count.to_f).to_f
+    avg = reviews.average(:score).to_f.round(2)
+
+    update_attribute(:average_score, avg)
   end 
 end

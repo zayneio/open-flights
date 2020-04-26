@@ -42,7 +42,7 @@ const Airlines = () => {
         name={a.attributes.name} 
         image_url={a.attributes.image_url} 
         slug={a.attributes.slug}
-        avg_score={a.attributes.avg_score}
+        average_score={a.attributes.average_score}
       />
     )
   })

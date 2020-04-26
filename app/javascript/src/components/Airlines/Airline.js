@@ -60,7 +60,7 @@ const Airline = (props) => {
       <AirlineName>
         {props.name}
       </AirlineName>
-      <Rating score={props.avg_score} />
+      <Rating score={props.average_score} />
       <LinkWrapper>
         <Link to={"/airlines/" + props.slug}>View Airline</Link>
       </LinkWrapper>
