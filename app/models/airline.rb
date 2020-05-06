@@ -1,12 +1,10 @@
 class Airline < ApplicationRecord
   has_many :reviews
 
-  before_create :slugify
-
   # Slugify airline name into a url safe param before create
   # Ex: 'United Airlines'.parameterize => 'united-airlines'
-  def slugify
-    self.slug = name.parameterize
+  before_create -> (airline) do
+    airline.slug = airline.name.parameterize
   end
 
   # Get the average score of all review for an airline

@@ -1,33 +1,34 @@
 class User < ApplicationRecord
   has_secure_password
 
-  # # # #  # # Relations # # # # #
   has_many :reviews
 
-  # # # # # # Validations # # # # #
   validates_presence_of :email
   validates_uniqueness_of :email
 
-  # # # # # Instance Methods # # # # #
-
   # Generate a new password reset token for a user.
-  # Used when 'forgot password?' path is followed
+  #
+  # @return [Nil]
   def generate_password_token!
-    self.update_attributes(
+    self.update_columns(
       reset_password_token: generate_token,
       reset_password_sent_at: Time.current
     )
   end
 
-  # Check that the password token sent is still valid
+  # Check if password token is valid.
+  #
+  # @return [Boolean]
   def password_token_valid?
-    self.reset_password_sent_at + 2.hours > Time.current
+    expires_at = self.reset_password_sent_at + 1.hour
+    expires_at > Time.current
   end
 
-  # Reset the password for a user
-  # @param password [String] the new password to use
+  # Reset password.
+  #
+  # @param password [String]
   def reset_password!(password)
-    self.update_attributes(
+    self.update_columns(
       reset_password_token: nil,
       password: password
     )
@@ -35,7 +36,10 @@ class User < ApplicationRecord
 
   private
 
-  # Generate a password token using SecureRandom#hex
+  # Generate a password token.
+  # Uses SecureRandom#hex.
+  #
+  # @return [String]
   def generate_token
     SecureRandom.hex
   end
