@@ -12,7 +12,6 @@ class Airline < ApplicationRecord
     return 0 unless reviews.size.positive?
 
     avg = reviews.average(:score).to_f.round(2) * 100
-
-    update_attribute(:average_score, avg)
+    update_column(:average_score, avg)
   end
 end

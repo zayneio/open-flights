@@ -1,6 +1,8 @@
 module Api
   module V1
     class AirlinesController < ApiController
+      before_action :authenticate, only: %i[create update destroy]
+
       # GET /api/v1/airlines
       def index
         render json: AirlineSerializer.new(airlines, options).serialized_json
@@ -43,6 +45,7 @@ module Api
       end
 
       private
+
       # Used For compound documents with fast_jsonapi
       def options
         @options ||= { include: %i[reviews] }
