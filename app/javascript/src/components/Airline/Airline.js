@@ -109,7 +109,7 @@ const Airline = (props) => {
   const image_url = GetNested(airline, 'data', 'attributes', 'image_url')
   
   let total, average = 0
-  let reviews, included
+  let reviews
 
   if (airline.included) {
     total = airline.included.reduce((total, review) => total + review.attributes.score, 0)
