@@ -2,13 +2,12 @@ module Api
   module V1
     class AuthController < ApiController
       include Resettable
-
-      before_action :authenticate, except: %i[create logged_in reset_password forgot_password]
+      before_action :authenticate, only: %i[logout]
 
       def create
-        user = User.find_by(email: params[:user][:email]).try(:authenticate, params[:user][:password])
+        user = User.find_by(email: params[:user][:email])
 
-        if user
+        if user && user.authenticate(params[:user][:password])
           session[:user_id] = user.id
           render json: { status: :success, logged_in: true }, status: 204
         else
