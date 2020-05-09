@@ -1,4 +1,4 @@
-# OpenFlights 
+## OpenFlights 
 ### A flight reviews app built with Ruby on Rails and React.js
 
 This app is intended to be a simple example of a CRUD app built with **Ruby on Rails** and **React.js** using **Webpacker**.
@@ -57,7 +57,7 @@ edit_api_v1_airline GET    /api/v1/airlines/:slug/edit(.:format) api/v1/airlines
 
 ---
 
-# Api V2 (Graphql)
+## Api V2 (Graphql)
 
 **Get Airlines#index**
 ```
@@ -129,7 +129,7 @@ mutation {
 
 ---
 
-# How to rebuild this app from scratch (*WORK IN PROGRESS)
+## How to rebuild this app from scratch (*WORK IN PROGRESS)
 
 For an up to date, full step-by-step guide on how to rebuild this app from scratch, check out [this article I've put together.](https://zayne.io/articles/how-to-build-a-crud-app-with-ruby-on-rails-and-react)
 
