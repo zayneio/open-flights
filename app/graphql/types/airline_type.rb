@@ -5,9 +5,6 @@ module Types
     field :image_url, String, null: true
     field :slug, String, null: true
     field :average_score, Integer, null: true
-    field :reviews, [Types::ReviewType], 
-          null: true,
-          # And fields can have their own descriptions:
-          description: "This post's comments, or null if this post has comments disabled."
+    field :reviews, [Types::ReviewType], null: true
   end
 end

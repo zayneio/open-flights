@@ -72,10 +72,15 @@ const Airline = (props) => {
       { query: createReviewQuery({ ...review, airlineId }) }
     )
     .then( (resp) => {
-      const reviews = [ ...airline.reviews, resp.data.data.createReview ]
-      setAirline({ ...airline, reviews })
-      setReview({ title: '', description: '', score: 0 })
-      setError('')
+      const payload = resp.data.data.createReview
+      if (payload.error || payload.message == 'failure') {
+        setError(payload.error)
+      } else {
+        const reviews = [ ...airline.reviews, payload ]
+        setAirline({ ...airline, reviews })
+        setReview({ title: '', description: '', score: 0 })
+        setError('')
+      }
     })
     .catch( resp => {
       let error

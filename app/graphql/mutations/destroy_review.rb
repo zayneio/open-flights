@@ -6,6 +6,7 @@ module Mutations
   
     field :review, Types::ReviewType, null: false
     field :errors, [String], null: true
+    field :message, String, null: true
 
     type Types::ReviewType
 
