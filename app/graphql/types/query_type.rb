@@ -10,7 +10,9 @@ module Types
 
     # Airlines#index method
     def airlines
-      Airline.all
+      Airline
+        .includes(:reviews)
+        .all
     end
 
     # Airlines#show description
@@ -21,7 +23,9 @@ module Types
 
     # Airlines#show method
     def airline(slug:)
-      Airline.find_by(slug: slug)
+      Airline
+        .includes(:reviews)
+        .find_by(slug: slug)
     end
   end
 end

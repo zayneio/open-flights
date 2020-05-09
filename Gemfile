@@ -22,6 +22,8 @@ gem 'sendgrid-ruby'
 gem 'sidekiq'
 gem 'uglifier', '>= 1.3.0'
 gem 'graphql'
+gem 'graphql-batch'
+gem 'graphiql-rails', group: :development
 
 group :development, :test do
   gem 'rspec-rails'
@@ -39,5 +41,3 @@ group :development do
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
-gem 'graphiql-rails', group: :development
