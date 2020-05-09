@@ -3,13 +3,23 @@ module Types
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
-    # First describe the field signature:
+    # Airlines#index description
+    field :airlines, [AirlineType], null: true do
+      description "Find all airlines"
+    end
+
+    # Airlines#index method
+    def airlines
+      Airline.all
+    end
+
+    # Airlines#show description
     field :airline, AirlineType, null: true do
       description "Find a airline by Slug"
       argument :slug, String, required: true
     end
 
-    # Then provide an implementation:
+    # Airlines#show method
     def airline(slug:)
       Airline.find_by(slug: slug)
     end
