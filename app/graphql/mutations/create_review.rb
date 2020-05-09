@@ -12,12 +12,10 @@ module Mutations
 
     type Types::ReviewType
 
-    def resolve(title:, description:, score:, airline_id:)
+    def resolve(*attributes)
       ReviewService::Create.call(
-        title: title, 
-        description: description, 
-        score: score,
-        airline_id: airline_id
+        attributes: attributes,
+        user: context[:current_user]
       )
     end
   end

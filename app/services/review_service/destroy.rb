@@ -1,8 +1,11 @@
 module ReviewService
-  class Destroy
+  class Destroy < ReviewService::Base
     class << self
-      def call(id:)
-        review = Review.find(id)
+      def call(id:, user:)
+        return unauthorized unless user
+
+        review = user.reviews.find_by(id: id)   
+        return not_found unless review
 
         if review.destroy
           { error: nil, message: 'success' }

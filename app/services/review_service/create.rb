@@ -1,21 +1,19 @@
+# frozen_string_literal: true
+
 module ReviewService
-  class Create
+  class Create < ReviewService::Base
     class << self
-      def call(title:, description:, score:, airline_id:)
-        airline = Airline.find(airline_id)
-        review = airline.reviews.new(
-          title: title, 
-          description: description, 
-          score: score,
-          airline_id: airline_id
-        )
-  
-        if review.save
-          review
-            .slice(*%i[id title description score airline_id])
-            .merge(message: 'success', error: nil)
-        else
-          { message: 'failure', errors: review.errors.messages }
+      def call(attributes:, user:)
+        return unauthorized unless user
+
+        Review.transaction do
+          review = user.reviews.new(review_params(attributes))
+          if review.save
+            review.airline.calculate_average
+            review.graphql_json_response
+          else
+            { message: 'failure', errors: review.errors.messages, code: 422 }
+          end
         end
       end
     end

@@ -1,9 +1,8 @@
 class Review < ApplicationRecord
   belongs_to :airline
-  belongs_to :user, optional: true
-  
-  # Update the average score for airline.
-  after_save -> (review) do 
-    review.airline.calculate_average
+  belongs_to :user
+
+  def graphql_json_response
+    as_json.merge(message: 'success', error: nil, code: 200)
   end
 end

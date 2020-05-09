@@ -11,7 +11,7 @@ module Mutations
     type Types::ReviewType
 
     def resolve(id:)
-      ReviewService::Destroy.call(id: id)
+      ReviewService::Destroy.call(id: id, user: context[:current_user])
     end
   end
 end

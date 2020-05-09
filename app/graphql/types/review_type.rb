@@ -5,11 +5,13 @@ module Types
     field :description, String, null: true
     field :score, Integer, null: true
     field :airline_id, Integer, null: true
-    
+    field :user_id, Integer, null: true
+  
     # Return a 'success' mesage for destroy mutations
     field :message, String, null: true
-
     # Return an error for create and destroy mutations when error occurs
     field :error, String, null: true
+    # Return a status code for create and destroy mutations
+    field :code, Integer, null: true
   end
 end
