@@ -81,7 +81,7 @@ query Airlines {
 **Get Airlines#show**
 ```
 query Airline {
-  airline(slug: "${slug}") {
+  airline(slug:) {
     id
     name
     imageUrl
@@ -120,7 +120,7 @@ mutation {
 **Destroy Review**
 ```
 mutation {
-  destroyReview(id: 1) {
+  destroyReview(id:) {
     message
     error
   }
