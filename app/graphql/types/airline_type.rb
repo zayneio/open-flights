@@ -4,7 +4,7 @@ module Types
     field :name, String, null: true
     field :image_url, String, null: true
     field :slug, String, null: true
-    field :avg_score, Integer, null: true
+    field :average_score, Integer, null: true
     field :reviews, [Types::ReviewType], 
           null: true,
           # And fields can have their own descriptions:

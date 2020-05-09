@@ -29,20 +29,43 @@ const Airlines = () => {
   const [airlines, setAirlines] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/v1/airlines.json')
-    .then( resp => setAirlines(resp.data.data))
+    // This uses the v2 api (graphql) as of 05/09/2020.
+    // For the v1 api endpoint use: axios.get('/api/v1/airlines.json')
+    axios.post(
+      '/api/v2/graphql',
+      {
+        query: `
+          query Airlines {
+            airlines {
+              id
+              name
+              imageUrl
+              slug
+              averageScore
+              reviews {
+                id
+                title
+                description
+                score
+              }
+            }
+          }
+        `
+      }
+    )
+    .then( resp => setAirlines(resp.data.data.airlines))
     .catch( data => console.log('error', data))
 
-  }, [airlines.length])
+  }, [])
 
   const grid = airlines.map( (airline, index) => {
     return (
       <Airline 
         key={index}
-        name={airline.attributes.name}
-        image_url={airline.attributes.image_url}
-        slug={airline.attributes.slug}
-        average_score={airline.attributes.average_score}
+        name={airline.name}
+        image_url={airline.imageUrl}
+        slug={airline.slug}
+        average_score={airline.averageScore}
       />
     )
   })
