@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import Review from './Review'
 import ReviewForm from './ReviewForm'
 import Header from './Header'
+import airlineQuery from '../../queries/airlineQuery'
+import createReviewQuery from '../../queries/createReviewQuery'
 import GetNested from '../../utils/Helpers/GetNested'
 
 const Wrapper = styled.div`
@@ -43,10 +45,10 @@ const Airline = (props) => {
 
   useEffect(()=> {
     const slug = props.match.params.slug
-    const url = `/api/v1/airlines/${slug}`
-
-    axios.get(url)
-    .then( (resp) => setAirline(resp.data))
+    // This uses the v2 api (graphql) as of 05/09/2020.
+    // For the v1 api endpoint use: axios.get('/api/v1/airlines/:slug')
+    axios.post('/api/v2/graphql', { query: airlineQuery(slug) })
+    .then( (resp) => setAirline(resp.data.data.airline))
     .catch( data => console.log('Error', data) )
   }, [])
 
@@ -63,11 +65,15 @@ const Airline = (props) => {
 
     AxiosHelper()
 
-    const airline_id = parseInt(airline.data.id)
-    axios.post('/api/v1/reviews', { ...review, airline_id })
+    const airlineId = parseInt(airline.id)
+    // This uses the v2 api (graphql) as of 05/09/2020.
+    // For the v1 api endpoint use: axios.post('/api/v1/reviews')
+    axios.post('/api/v2/graphql', 
+      { query: createReviewQuery({ ...review, airlineId }) }
+    )
     .then( (resp) => {
-      const included = [ ...airline.included, resp.data.data ]
-      setAirline({ ...airline, included })
+      const reviews = [ ...airline.reviews, resp.data.data.createReview ]
+      setAirline({ ...airline, reviews })
       setReview({ title: '', description: '', score: 0 })
       setError('')
     })
@@ -90,11 +96,11 @@ const Airline = (props) => {
 
     axios.delete(`/api/v1/reviews/${id}`)
     .then( (data) => {
-      const included = [...airline.included]
-      const index = included.findIndex( (data) => data.id == id )
-      included.splice(index, 1)
+      let reviews = [...airline.reviews]
+      const index = reviews.findIndex( (data) => data.id == id )
+      reviews.splice(index, 1)
 
-      setAirline({ ...airline, included })
+      setAirline({ ...airline, reviews })
     })
     .catch( data => console.log('Error', data) )
   }
@@ -105,22 +111,22 @@ const Airline = (props) => {
     setReview({ ...review, score })
   }
 
-  const name = GetNested(airline, 'data', 'attributes', 'name')
-  const image_url = GetNested(airline, 'data', 'attributes', 'image_url')
+  const name = GetNested(airline, 'name')
+  const image_url = GetNested(airline, 'imageUrl')
   
   let total, average = 0
-  let reviews
+  let airlineReviews
 
-  if (airline.included) {
-    total = airline.included.reduce((total, review) => total + review.attributes.score, 0)
-    average = total > 0 ? (parseFloat(total) / parseFloat(airline.included.length)) : 0
+  if (airline.reviews && airline.reviews.length > 0) {
+    total = airline.reviews.reduce((total, review) => total + review.score, 0)
+    average = total > 0 ? (parseFloat(total) / parseFloat(airline.reviews.length)) : 0
     
-    reviews = airline.included.map( (review, index) => {
+    airlineReviews = airline.reviews.map( (review, index) => {
       return (
         <Review 
           key={index}
           id={review.id}
-          attributes={review.attributes}
+          attributes={review}
           handleDestroy={handleDestroy}
         />
       )
@@ -134,10 +140,10 @@ const Airline = (props) => {
           <Header 
             image_url={image_url}
             name={name}
-            reviews={airline.included}
+            reviews={airline.reviews}
             average={average}
           />
-          {reviews}
+          {airlineReviews}
         </Main>
       </Column>
       <Column>
