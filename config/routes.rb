@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     end
 
     namespace :v2 do
-      post "graphql", to: "graphql#execute"
+      match "graphql", to: "graphql#execute"
     end
   end
 
