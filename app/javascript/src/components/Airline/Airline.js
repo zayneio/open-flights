@@ -7,6 +7,7 @@ import ReviewForm from './ReviewForm'
 import Header from './Header'
 import airlineQuery from '../../queries/airlineQuery'
 import createReviewQuery from '../../queries/createReviewQuery'
+import deleteReviewQuery from '../../queries/deleteReviewQuery'
 import GetNested from '../../utils/Helpers/GetNested'
 
 const Wrapper = styled.div`
@@ -68,9 +69,7 @@ const Airline = (props) => {
     const airlineId = parseInt(airline.id)
     // This uses the v2 api (graphql) as of 05/09/2020.
     // For the v1 api endpoint use: axios.post('/api/v1/reviews')
-    axios.post('/api/v2/graphql', 
-      { query: createReviewQuery({ ...review, airlineId }) }
-    )
+    axios.post('/api/v2/graphql', { query: createReviewQuery({ ...review, airlineId }) })
     .then( (resp) => {
       const payload = resp.data.data.createReview
       if (payload.error || payload.message == 'failure') {
@@ -98,8 +97,7 @@ const Airline = (props) => {
   // Destroy a review
   const handleDestroy = (id, e) => {
     e.preventDefault()
-
-    axios.delete(`/api/v1/reviews/${id}`)
+    axios.post('/api/v2/graphql', { query: deleteReviewQuery(id) })
     .then( (data) => {
       let reviews = [...airline.reviews]
       const index = reviews.findIndex( (data) => data.id == id )

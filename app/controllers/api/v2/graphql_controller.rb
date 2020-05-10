@@ -2,6 +2,7 @@ module Api
   module V2
     class GraphqlController < ApiController
       include Graphable
+      include Authable
 
       protect_from_forgery with: :null_session
 
