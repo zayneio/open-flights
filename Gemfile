@@ -21,6 +21,9 @@ gem 'sass-rails', '~> 5.0'
 gem 'sendgrid-ruby'
 gem 'sidekiq'
 gem 'uglifier', '>= 1.3.0'
+gem 'graphql'
+gem 'graphql-batch'
+gem 'graphiql-rails', group: :development
 
 group :development, :test do
   gem 'rspec-rails'
