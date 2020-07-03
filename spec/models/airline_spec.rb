@@ -1,5 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Airline, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#slugify' do
+    airline = Airline.create(name: 'Fake Airlines')
+
+    it { expect(airline.slug).to eq('fake-airlines')}
+  end
 end
