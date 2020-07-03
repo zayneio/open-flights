@@ -24,6 +24,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'graphql'
 gem 'graphql-batch'
 gem 'graphiql-rails', group: :development
+gem 'pry'
 
 group :development, :test do
   gem 'factory_bot_rails'
