@@ -293,11 +293,9 @@ class Airline < ApplicationRecord
   ...
 
   def avg_score
-    return 0 unless reviews.size.positive?
-
-    (reviews.sum(:score).to_f / reviews.count.to_f).to_f
+    reviews.average(:score).to_f.round(2)
   end
-end  
+end
 ```
 
 This method will return 0 if an airline has no reviews yet. Otherwise it will get the sum of all the review scores for an airline divided by the total number of reviews for that airline to get the average rating.
@@ -316,9 +314,7 @@ class Airline < ApplicationRecord
   end
 
   def avg_score
-    return 0 unless reviews.size.positive?
-
-    (reviews.sum(:score).to_f / reviews.count.to_f).to_f
+    reviews.average(:score).to_f.round(2)
   end
 end  
 ```
