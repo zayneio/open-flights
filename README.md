@@ -11,10 +11,10 @@ This app is intended to be a simple example of a CRUD app built with **Ruby on R
 
 ---
 
-Some of the features of this app include:
+This app uses:
 
-* Ruby version: `2.6.5`
-* Rails version: `6.0.1`
+* Ruby version: `2.7`
+* Rails version: `6.0.3.4`
 * Database: `postgresql`
 * React version: `16.12.0`
 * React Hooks API
@@ -316,7 +316,7 @@ class Airline < ApplicationRecord
   def avg_score
     reviews.average(:score).to_f.round(2)
   end
-end  
+end
 ```
 
 
