@@ -153,7 +153,7 @@ const Airline = (props) => {
           </Column>
           <Column>
             <ReviewForm
-              name={name}
+              name={airline.data.attributes.name}
               review={review}
               handleChange={handleChange}
               handleSubmit={handleSubmit}
