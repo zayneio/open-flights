@@ -65,8 +65,8 @@ const AvatarWrapper = styled.div`
   }
 `
 
-const Review = (props) => {
-  const attributes = props.attributes
+const Review = ({attributes, ...props}) => {
+  const {title, description, score} = attributes
 
   return (
     <AuthConsumer>
@@ -74,21 +74,25 @@ const Review = (props) => {
         <Card>
           <RatingContainer>
             <AvatarWrapper><Avatar/></AvatarWrapper>
-            <Rating score={attributes.score}/>
+            <Rating score={score}/>
             <Author>{attributes.email}</Author>
           </RatingContainer>
           <Title>
-            {attributes.title}
+            {title}
           </Title>
           <Description>
-            {attributes.description}
+            {description}
           </Description>
             { 
               isAuth &&
-              email === attributes.email && 
+              email === attributes.email &&
               <Options>
-                <Icon onClick={props.handleDestroy.bind(this, props.id)}> <i className="fa fa-trash"></i></Icon>
-                <Icon> <i className="fa fa-pencil"></i></Icon>
+                <Icon onClick={props.handleDestroy.bind(this, props.id)}>
+                  <i className="fa fa-trash"></i>
+                </Icon>
+                <Icon>
+                  <i className="fa fa-pencil"></i>
+                </Icon>
               </Options>
             }
         </Card>
