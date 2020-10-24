@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import axios from 'axios'
-import AxiosHelper from '../../utils/Requests/AxiosHelper'
 import styled from 'styled-components'
 import Review from './Review'
 import ReviewForm from './ReviewForm'
 import Header from './Header'
+import AxiosHelper from '../../utils/Requests/AxiosHelper'
+/*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+Uncomment these if you want to use the V2 API (Graphql):
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 import airlineQuery from '../../queries/airlineQuery'
 import createReviewQuery from '../../queries/createReviewQuery'
 import deleteReviewQuery from '../../queries/deleteReviewQuery'
-import GetNested from '../../utils/Helpers/GetNested'
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+*/
 
 const Wrapper = styled.div`
   margin-left: auto;
@@ -41,22 +46,25 @@ const Main = styled.div`
 
 const Airline = (props) => {
   const [airline, setAirline] = useState({})
+  const [reviews, setReviews] = useState([])
   const [review, setReview] = useState({ title: '', description: '', score: 0 })
   const [error, setError] = useState('')
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(()=> {
     const slug = props.match.params.slug
-    // This uses the v2 api (graphql) as of 05/09/2020.
-    // For the v1 api endpoint use: axios.get('/api/v1/airlines/:slug')
-    axios.post('/api/v2/graphql', { query: airlineQuery(slug) })
-    .then( (resp) => setAirline(resp.data.data.airline))
+
+    axios.get(`/api/v1/airlines/${slug}`)
+    .then( (resp) => {
+      setAirline(resp.data)
+      setReviews(resp.data.included)
+      setLoaded(true)
+    })
     .catch( data => console.log('Error', data) )
   }, [])
 
   // Modify text in review form
   const handleChange = (e) => {
-    e.preventDefault()
-
     setReview(Object.assign({}, review, {[e.target.name]: e.target.value}))
   }
 
@@ -66,20 +74,12 @@ const Airline = (props) => {
 
     AxiosHelper()
 
-    const airlineId = parseInt(airline.id)
-    // This uses the v2 api (graphql) as of 05/09/2020.
-    // For the v1 api endpoint use: axios.post('/api/v1/reviews')
-    axios.post('/api/v2/graphql', { query: createReviewQuery({ ...review, airlineId }) })
+    const airline_id = parseInt(airline.data.id)
+    axios.post('/api/v1/reviews', { ...review, airline_id })
     .then( (resp) => {
-      const payload = resp.data.data.createReview
-      if (payload.error || payload.message == 'failure') {
-        setError(payload.error)
-      } else {
-        const reviews = [ ...airline.reviews, payload ]
-        setAirline({ ...airline, reviews })
-        setReview({ title: '', description: '', score: 0 })
-        setError('')
-      }
+      setReviews([...reviews, resp.data.data])
+      setReview({ title: '', description: '', score: 0 })
+      setError('')
     })
     .catch( resp => {
       let error
@@ -97,13 +97,16 @@ const Airline = (props) => {
   // Destroy a review
   const handleDestroy = (id, e) => {
     e.preventDefault()
-    axios.post('/api/v2/graphql', { query: deleteReviewQuery(id) })
-    .then( (data) => {
-      let reviews = [...airline.reviews]
-      const index = reviews.findIndex( (data) => data.id == id )
-      reviews.splice(index, 1)
 
-      setAirline({ ...airline, reviews })
+    AxiosHelper()
+
+    axios.delete(`/api/v1/reviews/${id}`)
+    .then( (data) => {
+      const included = [...reviews]
+      const index = included.findIndex( (data) => data.id == id )
+      included.splice(index, 1)
+
+      setReviews(included)
     })
     .catch( data => console.log('Error', data) )
   }
@@ -114,22 +117,19 @@ const Airline = (props) => {
     setReview({ ...review, score })
   }
 
-  const name = GetNested(airline, 'name')
-  const image_url = GetNested(airline, 'imageUrl')
-  
   let total, average = 0
-  let airlineReviews
+  let userReviews
 
-  if (airline.reviews && airline.reviews.length > 0) {
-    total = airline.reviews.reduce((total, review) => total + review.score, 0)
-    average = total > 0 ? (parseFloat(total) / parseFloat(airline.reviews.length)) : 0
+  if (reviews && reviews.length > 0) {
+    total = reviews.reduce((total, review) => total + review.attributes.score, 0)
+    average = total > 0 ? (parseFloat(total) / parseFloat(reviews.length)) : 0
     
-    airlineReviews = airline.reviews.map( (review, index) => {
+    userReviews = reviews.map( (review, index) => {
       return (
         <Review 
           key={index}
           id={review.id}
-          attributes={review}
+          attributes={review.attributes}
           handleDestroy={handleDestroy}
         />
       )
@@ -138,27 +138,31 @@ const Airline = (props) => {
 
   return(
     <Wrapper>
-      <Column>
-        <Main>
-          <Header 
-            image_url={image_url}
-            name={name}
-            reviews={airline.reviews}
-            average={average}
-          />
-          {airlineReviews}
-        </Main>
-      </Column>
-      <Column>
-        <ReviewForm
-          name={name}
-          review={review}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          setRating={setRating}
-          error={error}
-        />
-      </Column>
+      { 
+        loaded &&
+        <Fragment>
+          <Column>
+            <Main>
+              <Header 
+                attributes={airline.data.attributes}
+                reviews={reviews}
+                average={average}
+              />
+              {userReviews}
+            </Main>
+          </Column>
+          <Column>
+            <ReviewForm
+              name={name}
+              review={review}
+              handleChange={handleChange}
+              handleSubmit={handleSubmit}
+              setRating={setRating}
+              error={error}
+            />
+          </Column>
+        </Fragment>
+      }
     </Wrapper>
   )
 }
