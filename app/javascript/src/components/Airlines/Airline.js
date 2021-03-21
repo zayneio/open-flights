@@ -51,20 +51,18 @@ const LinkWrapper = styled.div`
   }
 `
 
-const Airline = (props) => {
-  const average_score = parseFloat(props.average_score / 100)
-
+const Airline = ({ name, image_url, average_score, slug, ...props }) => {
   return (
     <Card>
       <AirlineLogo>
-        <img src={props.image_url} alt={props.name} width="50"/>
+        <img src={image_url} alt={name} width="50"/>
       </AirlineLogo>
       <AirlineName>
-        {props.name}
+        {name}
       </AirlineName>
       <Rating score={average_score} />
       <LinkWrapper>
-        <Link to={"/airlines/" + props.slug}>View Airline</Link>
+        <Link to={"/airlines/" + slug}>View Airline</Link>
       </LinkWrapper>
     </Card>
   )

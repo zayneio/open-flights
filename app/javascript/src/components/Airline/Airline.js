@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Review from './Review'
 import ReviewForm from './ReviewForm'
 import Header from './Header'
-import AxiosHelper from '../../utils/Requests/AxiosHelper'
+import AxiosWrapper from '../../utils/Requests/AxiosWrapper'
 /*
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 Uncomment these if you want to use the V2 API (Graphql):
@@ -54,7 +54,7 @@ const Airline = (props) => {
   useEffect(()=> {
     const slug = props.match.params.slug
 
-    axios.get(`/api/v1/airlines/${slug}`)
+    AxiosWrapper.get(`/api/v1/airlines/${slug}`)
     .then( (resp) => {
       setAirline(resp.data)
       setReviews(resp.data.included)
@@ -72,10 +72,8 @@ const Airline = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    AxiosHelper()
-
     const airline_id = parseInt(airline.data.id)
-    axios.post('/api/v1/reviews', { ...review, airline_id })
+    AxiosWrapper.post('/api/v1/reviews', { ...review, airline_id })
     .then( (resp) => {
       setReviews([...reviews, resp.data.data])
       setReview({ title: '', description: '', score: 0 })
@@ -98,9 +96,7 @@ const Airline = (props) => {
   const handleDestroy = (id, e) => {
     e.preventDefault()
 
-    AxiosHelper()
-
-    axios.delete(`/api/v1/reviews/${id}`)
+    AxiosWrapper.delete(`/api/v1/reviews/${id}`)
     .then( (data) => {
       const included = [...reviews]
       const index = included.findIndex( (data) => data.id == id )

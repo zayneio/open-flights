@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Airline from './Airline'
 import Header from './Header'
-import airlinesQuery from '../../queries/airlinesQuery'
+// import airlinesQuery from '../../queries/airlinesQuery'
 import styled from 'styled-components'
 
 const Home = styled.div`
@@ -30,21 +30,28 @@ const Airlines = () => {
   const [airlines, setAirlines] = useState([]);
 
   useEffect(() => {
-    // This uses the v2 api (graphql) as of 05/09/2020.
-    // For the v1 api endpoint use: axios.get('/api/v1/airlines.json')
-    axios.post('/api/v2/graphql', { query: airlinesQuery })
-    .then( resp => setAirlines(resp.data.data.airlines))
+    /* 
+      For the v2 graphql api (experimental) you can use:
+      axios.post('/api/v2/graphql', { query: airlinesQuery })
+
+      You'll also need to uncomment this line above:
+      import airlinesQuery from '../../queries/airlinesQuery'
+    */
+    axios.get('/api/v1/airlines.json')
+    .then( resp => setAirlines(resp.data.data))
     .catch( data => console.log('error', data))
   }, [])
 
   const grid = airlines.map( (airline, index) => {
+    const { name, image_url, slug, average_score } = airline.attributes
+
     return (
       <Airline 
         key={index}
-        name={airline.name}
-        image_url={airline.imageUrl}
-        slug={airline.slug}
-        average_score={airline.averageScore}
+        name={name}
+        image_url={image_url}
+        slug={slug}
+        average_score={average_score}
       />
     )
   })
