@@ -4,7 +4,7 @@
   "dependencies": {
     "@babel/preset-react": "^7.8.3",
     "@rails/webpacker": "4.2.2",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
