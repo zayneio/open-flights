@@ -1,0 +1,33 @@
+# Commands
+
+# docker compose build --no-cache
+# docker compose up -d 
+######################################
+version: '3'
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: passwd
+      POSTGRES_DB: open-flights_development
+    networks:
+      - test
+    ports:
+      - "5432:5432"
+
+  rails:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        - BUILD_NO_CACHE=1
+    container_name: rails
+    networks:
+      - test
+    ports:
+      - "3000:3000"
+
+networks:
+  test:
