@@ -3,10 +3,7 @@
 
 This app is intended to be a simple example of a CRUD app built with **Ruby on Rails** and **React.js** using **Webpacker**.
 
----
-![OpenFlights Home](https://github.com/zayneio/open-flights/blob/master/app/assets/images/index-demo.png?raw=true)
----
-![OpenFlights Show](https://github.com/zayneio/open-flights/blob/master/app/assets/images/show-demo.png?raw=true)
+https://github.com/zayneio/open-flights/assets/37857673/489827d5-f142-4064-ba00-48e194acf2c7
 
 
 ---
