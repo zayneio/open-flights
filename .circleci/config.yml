@@ -2,7 +2,7 @@ version: 2
 
 references:
   default_docker_ruby_executor: &default_docker_ruby_executor
-    image: circleci/ruby:2.6.5-node
+    image: cimg/ruby:3.1.4-node
     environment:
       BUNDLE_JOBS: 3
       BUNDLE_RETRY: 3
@@ -26,7 +26,7 @@ jobs:
       - checkout
       - run:
           name: Configure Bundler
-          command: gem install bundler
+          command: gem install bundler -v 2.4.22
       # Which version of bundler?
       - run:
           name: Which bundler?
