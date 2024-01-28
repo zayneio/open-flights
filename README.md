@@ -9,8 +9,8 @@ https://github.com/zayneio/open-flights/assets/37857673/489827d5-f142-4064-ba00-
 ---
 
 ## Running it locally
-- run `bundle exec rails db:prepare`
-- run `npm install` or `yarn install`
+- run `rails db:prepare`
+- run `yarn install`
 - run `bundle exec rails s`
 - in another tab run `./bin/webpack-dev-server`
 - in another tab run `sidekiq` (optional, but necessary for things like password reset emails)
