@@ -7,7 +7,7 @@ end
 
 gem 'rails', '~> 6.0', '>= 6.0.3.4'
 gem 'pg', '>= 0.18', '< 2.0'
-gem 'puma', '~> 4.3'
+gem 'puma', '~> 5.6'
 gem 'webpacker', '~> 5.4', '>= 5.4.4'
 
 gem 'brakeman'
