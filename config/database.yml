@@ -20,24 +20,26 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
+  host: <%= ENV['POSTGRES_HOST'] %>
 
 development:
   <<: *default
-  database: open-flights_development
-
+  database: <%= ENV['POSTGRES_DB'] %>
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user that initialized the database.
-  #username: open-flights
+  # username: ruby
 
   # The password associated with the postgres role (username).
-  #password:
+  # password: ruby
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
   # domain sockets, so uncomment these lines.
-  #host: localhost
+  # host: 172.17.0.2
 
   # The TCP port the server listens on. Defaults to 5432.
   # If your server runs on a different port number, change accordingly.
@@ -80,6 +82,7 @@ test:
 #
 production:
   <<: *default
-  database: open-flights_production
-  username: open-flights
-  password: <%= ENV['OPEN-FLIGHTS_DATABASE_PASSWORD'] %>
+  database: <%= ENV['POSTGRES_DB'] %>
+  username: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
+  host: <%= ENV['POSTGRES_HOST'] %>
