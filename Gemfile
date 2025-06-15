@@ -1,45 +1,45 @@
-source 'https://rubygems.org'
+# frozen_string_literal: true
+
+source "https://rubygems.org"
 
 git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '~> 6.0', '>= 6.0.3.4'
-gem 'pg', '>= 0.18', '< 2.0'
-gem 'puma', '~> 5.6'
-gem 'webpacker', '~> 5.4', '>= 5.4.4'
+ruby "3.2.2"
 
-gem 'brakeman'
-gem 'bcrypt'
-gem 'bundler-audit'
-gem 'coffee-rails', '~> 4.2'
-gem 'fast_jsonapi'
-gem 'figaro'
-gem 'turbolinks', '~> 5'
-gem 'sass-rails', '~> 5.0'
-gem 'sendgrid-ruby'
-gem 'sidekiq'
-gem 'uglifier', '>= 1.3.0'
-gem 'graphql'
-gem 'graphql-batch'
-gem 'graphiql-rails', group: :development
-gem 'pry'
+# Core framework
+gem "rails", "~> 7.1.0"
 
+# Database
+gem "pg", ">= 0.18", "< 2.0"
+
+# Web server
+gem "puma", "~> 6.4"
+
+# Security tools
+gem "brakeman"
+gem "bundler-audit"
+gem "bcrypt"
+
+# Frontend build (we'll set this up next)
+gem "jsbundling-rails"
+gem "sassc-rails"
+
+# Development tools
 group :development, :test do
-  gem 'factory_bot_rails'
-  gem 'rspec-rails'
-  gem 'rspec_junit_formatter'
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem "byebug"
 end
 
 group :development do
-
-  gem 'web-console', '>= 3.3.0'
-  gem 'listen', '>= 3.0.5', '< 3.2'
-
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem "web-console"
+  gem "listen"
 end
 
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+group :test do
+  gem "rspec-rails"
+end
+
+group :development do
+  gem 'graphiql-rails', '~> 1.8'
+end

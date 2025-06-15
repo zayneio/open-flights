@@ -27,3 +27,6 @@ yarn-debug.log*
 
 # Ignore application configuration
 /config/application.yml
+
+/app/assets/builds/*
+!/app/assets/builds/.keep
