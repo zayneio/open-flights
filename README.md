@@ -7,6 +7,18 @@ https://github.com/zayneio/open-flights/assets/37857673/489827d5-f142-4064-ba00-
 
 
 ---
+## Prerequisite
+1- install Ruby
+
+2- install Node.js and npm
+
+3- install Yarn
+
+4- install Rails gem
+
+5- install PostgreSQL as its the database
+
+6- create username and password for using inside the database
 
 ## Running it locally
 - run `rails db:prepare`
