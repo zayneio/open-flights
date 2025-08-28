@@ -27,3 +27,4 @@ yarn-debug.log*
 
 # Ignore application configuration
 /config/application.yml
+/.tekton/shared-data-pv.yaml
